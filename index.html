@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Lập Trình Scratch Cùng Bobby | Bobby's Code Club</title>
+    <meta name="description" content="Khóa học lập trình Scratch online Hè 2026 cùng Bobby (14 tuổi). Học vui như chơi game, rèn luyện tư duy logic cho trẻ em 7-10 tuổi.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #F59E0B;
+            --accent: #10B981;
+            --dark: #1E293B;
+            --light: #F8FAFC;
+            --white: #FFFFFF;
+            --gradient-1: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            --gradient-2: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+            --glass: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-2);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 5% 2rem;
+            background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23EEF2FF"/><stop offset="100%" stop-color="%23E0E7FF"/></linearGradient></defs><rect width="100" height="100" fill="url(%23g)"/><circle cx="80" cy="20" r="15" fill="%23C7D2FE" opacity="0.5"/><circle cx="20" cy="80" r="25" fill="%23DDD6FE" opacity="0.4"/><path d="M0,50 Q25,25 50,50 T100,50" fill="none" stroke="%23A5B4FC" stroke-width="2" opacity="0.3"/></svg>') no-repeat center center/cover;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+            padding-right: 2rem;
+        }
+
+        .hero-image {
+            flex: 1;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transform: rotate(-2deg);
+            transition: transform 0.3s;
+        }
+
+        .hero-image img:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 700;
+        }
+
+        .el-1 { top: 10%; right: 10%; animation-delay: 0s; }
+        .el-2 { bottom: 20%; left: -5%; animation-delay: 2s; }
+        .el-3 { bottom: 10%; right: 5%; animation-delay: 4s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .tag {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero h1 span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #475569;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Section styles */
+        section {
+            padding: 5rem 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #475569;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Curriculum Timeline */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #E2E8F0;
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+            width: 50%;
+            padding-right: 3rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+            padding-right: 0;
+            padding-left: 3rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            right: -10px;
+            top: 20px;
+            width: 24px;
+            height: 24px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            z-index: 2;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -14px;
+        }
+
+        .timeline-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .week-badge {
+            position: absolute;
+            top: -15px;
+            background: var(--secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .price-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .price-card.popular {
+            background: var(--gradient-1);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .price-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--secondary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: 'Outfit';
+            margin: 1.5rem 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748B;
+        }
+
+        .price-card.popular .price span {
+            color: #E0E7FF;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .features li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features li i {
+            color: var(--accent);
+        }
+
+        .price-card.popular .features li i {
+            color: #34D399;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--white);
+        }
+
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testi-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: var(--radius);
+            position: relative;
+        }
+
+        .testi-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: rgba(79, 70, 229, 0.1);
+            font-family: serif;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .user-img {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 8rem;
+            }
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 3rem;
+            }
+            .stats {
+                flex-direction: column;
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-right: 0;
+                padding-left: 3rem;
+            }
+            .timeline-dot {
+                left: 8px !important;
+                right: auto;
+            }
+            .price-card.popular {
+                transform: none;
+            }
+            .price-card.popular:hover {
+                transform: translateY(-5px);
+            }
+            .floating-element {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-code"></i> Bobby's Code Club
+        </div>
+        <div>
+            <a href="#chuong-trinh" class="btn" style="color: var(--dark);">Chương trình</a>
+            <a href="#dang-ky" class="btn btn-primary">Đăng ký học thử MIỄN PHÍ</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="tag"><i class="fa-solid fa-star"></i> Mùa Hè 2026 Đã Trở Lại!</div>
+            <h1>Học Lập Trình Scratch Cùng Bobby — <span>Người Dạy Đặc Biệt Nhất</span> Mà Con Bạn Từng Gặp</h1>
+            <p>Khóa học lập trình 6 tuần dành cho trẻ 7-10 tuổi. Bobby (14 tuổi) sẽ hướng dẫn các bạn nhỏ tự tay làm ra tựa game đầu đời. Học vui như chơi, rèn luyện tư duy logic!</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: flex-start;">
+                <a href="#dang-ky" class="btn btn-secondary"><i class="fa-solid fa-rocket"></i> Đăng Ký Ngay</a>
+                <a href="#ve-bobby" class="btn" style="background: white; border: 2px solid #E2E8F0;"><i class="fa-solid fa-play"></i> Tìm hiểu thêm</a>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div>Học viên nhí</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div>Tuần thực hành</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">90+</div>
+                    <div>Phụ huynh tin tưởng</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- Placeholder for Bobby's teaching photo -->
+            <div style="width: 100%; height: 400px; background: var(--gradient-1); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: var(--shadow); transform: rotate(-2deg);">
+                <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            
+            <div class="floating-element el-1">
+                <i class="fa-solid fa-gamepad" style="color: var(--primary); font-size: 1.5rem;"></i>
+                Làm Game
+            </div>
+            <div class="floating-element el-2">
+                <i class="fa-solid fa-robot" style="color: var(--accent); font-size: 1.5rem;"></i>
+                Tích hợp AI
+            </div>
+            <div class="floating-element el-3">
+                <i class="fa-solid fa-brain" style="color: var(--secondary); font-size: 1.5rem;"></i>
+                Tư duy Logic
+            </div>
+        </div>
+    </section>
+
+    <section id="ve-bobby" style="background: white;">
+        <div class="section-header">
+            <h2>Về "Thầy Giáo Nhí" Bobby</h2>
+            <p>Bạn có biết Bobby đã bắt đầu dạy lập trình từ năm 10 tuổi?</p>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 4rem; max-width: 1000px; margin: 0 auto; align-items: center;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--primary);">Từ học viên Teky đến gia sư nhí</h3>
+                <p style="margin-bottom: 1rem; font-size: 1.1rem;">Năm 2021 (10 tuổi), Bobby mở lớp dạy Scratch vỡ lòng đầu tiên. Dù chỉ dạy qua màn hình nhỏ, các buổi học luôn tràn ngập tiếng cười.</p>
+                <p style="margin-bottom: 1rem; font-size: 1.1rem;">Năm 2022 (11 tuổi), Bobby mở rộng lên 5 cấp độ Scratch và dạy thêm thiết kế Canvas, được hàng chục phụ huynh ủng hộ nồng nhiệt.</p>
+                <p style="font-size: 1.1rem; font-weight: 700;">Năm 2026 (14 tuổi), Bobby trở lại với phiên bản trưởng thành hơn, chuyên nghiệp hơn, và mang theo sức mạnh của AI vào từng buổi học!</p>
+            </div>
+            <div style="flex: 1; min-width: 300px; background: var(--light); padding: 2rem; border-radius: var(--radius); border-left: 5px solid var(--secondary);">
+                <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-lightbulb" style="color: var(--secondary);"></i> Điểm khác biệt</h4>
+                <ul style="list-style: none;">
+                    <li style="margin-bottom: 1rem;">✅ <strong>Cách kể chuyện:</strong> Trẻ con dễ hiểu ngôn ngữ của nhau hơn là người lớn dạy.</li>
+                    <li style="margin-bottom: 1rem;">✅ <strong>Phương pháp:</strong> Học bằng cách làm. Mỗi buổi học = 1 sản phẩm hoàn chỉnh.</li>
+                    <li>✅ <strong>Ứng dụng AI:</strong> Tóm tắt buổi học, tạo nhân vật độc đáo bằng công cụ AI hiện đại.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="chuong-trinh">
+        <div class="section-header">
+            <h2>Lộ Trình 6 Tuần Cùng Scratch</h2>
+            <p>Khóa học gồm 2 buổi chính (2 giờ/buổi) và 1 buổi sửa bài/tuần (1 giờ). Tổng cộng 30 giờ thực hành.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="week-badge">Tuần 1</div>
+                    <h3 style="margin-bottom: 0.5rem;">🌟 Chào mừng thế giới code</h3>
+                    <p>Làm quen với giao diện Scratch. Khám phá các khối lệnh cơ bản và làm dự án <strong>"Nhân vật tự giới thiệu"</strong>. (Đặc biệt: Nhờ AI vẽ nhân vật!)</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="week-badge">Tuần 2</div>
+                    <h3 style="margin-bottom: 0.5rem;">🏃 Nhân vật biết đi!</h3>
+                    <p>Học về tọa độ X/Y, vòng lặp (Loops). Hoàn thành dự án <strong>"Nhân vật đi dạo"</strong> mượt mà.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="week-badge">Tuần 3</div>
+                    <h3 style="margin-bottom: 0.5rem;">🎵 Tương tác & Âm thanh</h3>
+                    <p>Bắt sự kiện click chuột, thay đổi trang phục. Sản phẩm: <strong>"Băng nhạc tương tác"</strong> (tự tay mix nhạc bằng lệnh).</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="week-badge">Tuần 4</div>
+                    <h3 style="margin-bottom: 0.5rem;">🎮 Game Logic Đầu Tiên</h3>
+                    <p>Khái niệm cốt lõi: Cảm biến (Sensing), Câu lệnh điều kiện (If/Then). Code dự án <strong>"Game Hứng Đồ Ăn"</strong> kinh điển.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="week-badge">Tuần 5</div>
+                    <h3 style="margin-bottom: 0.5rem;">📖 Kể chuyện bằng Code</h3>
+                    <p>Truyền tin (Broadcast), quản lý nhiều nhân vật cùng lúc. Làm dự án <strong>"Truyện Tranh Chuyển Động"</strong> với kịch bản từ AI.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="week-badge" style="background: var(--accent);">Tuần 6 - Tốt Nghiệp</div>
+                    <h3 style="margin-bottom: 0.5rem;">🎉 Dự Án Tự Chọn</h3>
+                    <p>Debug lỗi, trau chuốt sản phẩm. Mỗi bạn sẽ tự tay trình bày dự án tâm đắc nhất và nhận chứng nhận Tốt Nghiệp từ Bobby!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dang-ky" style="background: var(--light);">
+        <div class="section-header">
+            <h2>Đầu Tư Cho Tương Lai Của Bé</h2>
+            <p>Học phí cực kỳ tối ưu so với các trung tâm lớn, nhưng mang lại trải nghiệm cá nhân hóa tuyệt vời.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>Buổi Trải Nghiệm</h3>
+                <div class="price">0đ <span>/ buổi</span></div>
+                <p style="margin-bottom: 2rem; color: #64748B;">Làm quen với giao diện & phương pháp của Bobby.</p>
+                <ul class="features">
+                    <li><i class="fa-solid fa-check"></i> 60 phút học thử nhóm</li>
+                    <li><i class="fa-solid fa-check"></i> 1 mini-game đơn giản</li>
+                    <li><i class="fa-solid fa-check"></i> Đánh giá mức độ phù hợp</li>
+                </ul>
+                <a href="#" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary);">Đăng Ký Ngay</a>
+            </div>
+
+            <div class="price-card popular">
+                <div class="popular-badge">Khuyên Dùng</div>
+                <h3>Gói Trọn Bộ 6 Tuần</h3>
+                <div class="price">1.500k <span>/ khóa</span></div>
+                <p style="margin-bottom: 2rem; color: #E0E7FF;">Tiết kiệm hơn, cam kết đầu ra trọn vẹn nhất.</p>
+                <ul class="features">
+                    <li><i class="fa-solid fa-check-circle"></i> 30 giờ thực hành (5h/tuần)</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Nhóm nhỏ 6-8 học viên</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Báo cáo tiến độ sau mỗi buổi</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Chứng chỉ tốt nghiệp</li>
+                    <li><i class="fa-solid fa-check-circle"></i> Buổi phụ đạo cuối tuần</li>
+                </ul>
+                <a href="#" class="btn btn-secondary" style="width: 100%; background: var(--white); color: var(--primary);">Đăng Ký Khóa Học</a>
+            </div>
+
+            <div class="price-card">
+                <h3>Gói Đóng Theo Tuần</h3>
+                <div class="price">300k <span>/ tuần</span></div>
+                <p style="margin-bottom: 2rem; color: #64748B;">Linh hoạt thời gian, phù hợp lịch hè bận rộn.</p>
+                <ul class="features">
+                    <li><i class="fa-solid fa-check"></i> 5 giờ thực hành / tuần</li>
+                    <li><i class="fa-solid fa-check"></i> Dừng bất cứ lúc nào</li>
+                    <li><i class="fa-solid fa-check"></i> Báo cáo tiến độ học tập</li>
+                    <li><i class="fa-solid fa-check"></i> Đầy đủ quyền lợi học tập</li>
+                </ul>
+                <a href="#" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary);">Đăng Ký Theo Tuần</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="section-header">
+            <h2>Phụ Huynh Nói Gì Về Bobby?</h2>
+            <p>Hàng chục feedback dễ thương từ các mùa Hè trước.</p>
+        </div>
+
+        <div class="testi-grid">
+            <div class="testi-card">
+                <p>"Bobby đang mún kiếm việc làm thêm bằng cách dạy lập trình scratch từ vỡ lòng cho các em từ 6 đến 7 tuổi. Bobby giỏi quá, chúc startup sớm thành unicorn nhé!"</p>
+                <div class="user">
+                    <div class="user-img">T</div>
+                    <div>
+                        <div style="font-weight: 700;">Cô Tống Nguyễn</div>
+                        <div style="font-size: 0.9rem; color: #64748B;">Phụ huynh mùa Hè 2021</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card">
+                <p>"Em Henry nhà cô muốn học cậu Bobby ơi! Ba mẹ Bobby rất giỏi luôn khi tạo điều kiện cho con được tự đứng lớp sớm như thế này."</p>
+                <div class="user">
+                    <div class="user-img" style="background: var(--gradient-2);">K</div>
+                    <div>
+                        <div style="font-weight: 700;">Cô Kim Chi</div>
+                        <div style="font-size: 0.9rem; color: #64748B;">Phụ huynh khóa 2022</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card">
+                <p>"Mới học 1 tuần mà tối nào cu cậu cũng lôi máy ra ngồi ghép khối lệnh khoe mẹ. Lớp của anh Bobby vui vẻ và thân thiện lắm."</p>
+                <div class="user">
+                    <div class="user-img" style="background: var(--accent);">H</div>
+                    <div>
+                        <div style="font-weight: 700;">Mẹ bé Hải</div>
+                        <div style="font-size: 0.9rem; color: #64748B;">Lớp Scratch Cơ Bản</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;"><i class="fa-solid fa-code"></i> Bobby's Code Club</div>
+        <p style="margin-bottom: 2rem; color: #94A3B8;">Mang tư duy công nghệ đến với trẻ em Việt Nam.</p>
+        <p style="color: #64748B; font-size: 0.9rem;">&copy; 2026 Bobby's Code Club. Designed with ❤️ for Summer 2026.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
