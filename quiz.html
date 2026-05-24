@@ -386,6 +386,101 @@
             color: #94A3B8;
             margin-top: 1.5rem;
         }
+    
+        /* Explanation Box */
+        .explanation-box {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: #F1F5F9;
+            border-left: 5px solid var(--primary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Admin Dashboard Styles */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .admin-table th {
+            background-color: #F8FAFC;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .admin-table tr:hover {
+            background-color: #F8FAFC;
+        }
+
+        .admin-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .admin-btn-danger {
+            background-color: #FEE2E2;
+            color: #EF4444;
+        }
+
+        .admin-btn-danger:hover {
+            background-color: #FCA5A5;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 1rem;
+        }
+
+        /* Clipboard Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0F172A;
+            color: #FFFFFF;
+            padding: 0.8rem 1.6rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
     </style>
 </head>
 <body>
@@ -393,7 +488,7 @@
     <div class="quiz-container">
         <!-- Logo -->
         <div class="quiz-header">
-            <div class="logo">
+            <div class="logo" style="cursor: pointer;" onclick="toggleAdminSecret()">
                 <i class="fa-solid fa-code"></i> Passionate Developer 2026
             </div>
             <p style="font-size: 0.9rem; color: #64748B;">Bài khảo sát đánh giá năng lực &amp; định hướng lộ trình học thử</p>
@@ -427,8 +522,14 @@
         <div class="step" id="quiz-step">
             <h2 id="questionText">Câu hỏi...</h2>
             <p class="subtitle" id="sectionLabel">Phần 1: Kỹ năng máy tính</p>
-            <div class="options-list" id="optionsList">
+                        <div class="options-list" id="optionsList">
                 <!-- Option cards here -->
+            </div>
+
+            <!-- Explanation Box -->
+            <div class="explanation-box" id="explanationContainer">
+                <strong style="color: var(--primary); display: block; margin-bottom: 0.4rem;"><i class="fa-solid fa-lightbulb"></i> Giải thích từ anh Chấn Phong:</strong>
+                <span id="explanationText"></span>
             </div>
 
             <div class="btn-container">
@@ -437,6 +538,36 @@
                     <button class="btn btn-skip" id="btnSkip" onclick="confirmSkip()"><i class="fa-solid fa-forward"></i> Bỏ qua</button>
                     <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()">Tiếp tục <i class="fa-solid fa-chevron-right"></i></button>
                 </div>
+            </div>
+        </div>
+
+                <!-- STEP ADMIN: Admin dashboard to view quiz results data -->
+        <div class="step" id="step-admin">
+            <div class="admin-header">
+                <h2 style="margin-bottom: 0;"><i class="fa-solid fa-database"></i> Bảng Dữ Liệu Kết Quả Test</h2>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-secondary" onclick="exportCSV()"><i class="fa-solid fa-file-excel"></i> Xuất Excel/CSV</button>
+                    <button class="btn btn-primary" onclick="window.location.search = ''"><i class="fa-solid fa-circle-play"></i> Xem Quiz</button>
+                </div>
+            </div>
+            
+            <p class="subtitle">Dưới đây là danh sách học sinh đã làm bài đánh giá năng lực được lưu cục bộ trên trình duyệt này.</p>
+            
+            <div style="overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Học Viên</th>
+                            <th>Số Zalo PH</th>
+                            <th>Điểm Logic</th>
+                            <th>Thời Gian</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- Data rows dynamically added -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -482,19 +613,34 @@
         </div>
     </div>
 
-    <script>
-        // Questions Data
-                const questions = [
+    <script>        // Questions Data
+        const questions = [
             // PART 1: COMPUTER SKILLS (Q1 - Q3)
             {
                 id: 1,
                 section: "🖥️ PHẦN 1: KỸ NĂNG MÁY TÍNH CƠ BẢN",
                 question: "Tổ hợp phím tắt nhanh nào trên bàn phím dùng để 'Sao chép' (Copy) một đoạn văn bản hoặc hình ảnh?",
                 options: [
-                    { text: "Ctrl + C", score: 10 },
-                    { text: "Ctrl + V", score: 0 },
-                    { text: "Ctrl + Z", score: 0 },
-                    { text: "Em chưa biết tổ hợp phím này", score: 0 }
+                    { 
+                        text: "Ctrl + C", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Tổ hợp <code>Ctrl + C</code> dùng để sao chép (Copy) đối tượng được chọn vào bộ nhớ tạm." 
+                    },
+                    { 
+                        text: "Ctrl + V", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> <code>Ctrl + V</code> dùng để Dán (Paste) chứ không phải Sao chép." 
+                    },
+                    { 
+                        text: "Ctrl + Z", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> <code>Ctrl + Z</code> dùng để Hoàn tác (Undo) hành động trước đó." 
+                    },
+                    { 
+                        text: "Em chưa biết tổ hợp phím này", 
+                        score: 0, 
+                        explanation: "<b>Kiến thức bổ ích:</b> Để Sao chép nhanh, em nhấn giữ phím <code>Ctrl</code> và phím <code>C</code> cùng lúc nhé!" 
+                    }
                 ]
             },
             {
@@ -502,10 +648,26 @@
                 section: "🖥️ PHẦN 1: KỸ NĂNG MÁY TÍNH CƠ BẢN",
                 question: "Em tự tin nhất khi dùng thiết bị nào dưới đây để học và thực hành lập trình?",
                 options: [
-                    { text: "Máy tính bàn (Desktop) / Máy tính xách tay (Laptop) có chuột rời", score: 10 },
-                    { text: "Laptop sử dụng bàn di chuột cảm ứng (Touchpad)", score: 5 },
-                    { text: "Máy tính bảng (iPad/Tablet)", score: 0 },
-                    { text: "Điện thoại thông minh", score: 0 }
+                    { 
+                        text: "Máy tính bàn (Desktop) / Máy tính xách tay (Laptop) có chuột rời", 
+                        score: 10, 
+                        explanation: "<b>Tuyệt vời!</b> Đây là môi trường lý tưởng nhất để học lập trình Scratch, giúp thao tác kéo thả và chạy thử cực kỳ mượt mà." 
+                    },
+                    { 
+                        text: "Laptop sử dụng bàn di chuột cảm ứng (Touchpad)", 
+                        score: 5, 
+                        explanation: "<b>Tốt!</b> Bàn di chuột cảm ứng dùng vẫn ổn, tuy nhiên khi kéo các khối lệnh phức tạp hoặc chỉnh sửa ảnh thì chuột rời sẽ tiện hơn đấy." 
+                    },
+                    { 
+                        text: "Máy tính bảng (iPad/Tablet)", 
+                        score: 0, 
+                        explanation: "<b>Lưu ý:</b> Học lập trình trên máy tính bảng sẽ gặp khó khăn khi thao tác kéo thả các khối lệnh nhỏ và khó lập trình các trò chơi cần điều khiển bằng phím mũi tên." 
+                    },
+                    { 
+                        text: "Điện thoại thông minh", 
+                        score: 0, 
+                        explanation: "<b>Lưu ý:</b> Màn hình điện thoại quá nhỏ để xếp khối lệnh Scratch và không có bàn phím cứng, sẽ rất khó học lập trình." 
+                    }
                 ]
             },
             {
@@ -513,10 +675,26 @@
                 section: "🖥️ PHẦN 1: KỸ NĂNG MÁY TÍNH CƠ BẢN",
                 question: "Khi em tải một hình ảnh từ trên mạng về máy tính, thông thường tệp ảnh đó sẽ tự động được lưu trữ ở thư mục mặc định nào?",
                 options: [
-                    { text: "Downloads (Tải về)", score: 10 },
-                    { text: "Recycle Bin (Thùng rác)", score: 0 },
-                    { text: "Desktop (Màn hình chính)", score: 5 },
-                    { text: "Documents (Tài liệu)", score: 5 }
+                    { 
+                        text: "Downloads (Tải về)", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Theo cấu hình mặc định của mọi hệ điều hành, tệp tải xuống từ trình duyệt sẽ nằm ở thư mục <code>Downloads</code>." 
+                    },
+                    { 
+                        text: "Recycle Bin (Thùng rác)", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Thùng rác chỉ chứa những tệp mà em đã chủ động nhấn Xóa thôi." 
+                    },
+                    { 
+                        text: "Desktop (Màn hình chính)", 
+                        score: 5, 
+                        explanation: "<b>Gần đúng.</b> Đôi khi người dùng tự cấu hình lưu ra màn hình chính, nhưng mặc định hệ thống vẫn lưu vào thư mục Downloads." 
+                    },
+                    { 
+                        text: "Documents (Tài liệu)", 
+                        score: 5, 
+                        explanation: "<b>Gần đúng.</b> Thư mục Documents thường dùng để lưu văn bản soạn thảo, không phải mặc định cho tệp tải từ trình duyệt." 
+                    }
                 ]
             },
             // PART 2: GEOMETRY & MATH (Q4 - Q7)
@@ -525,10 +703,26 @@
                 section: "📐 PHẦN 2: HÌNH HỌC & TOÁN CƠ BẢN",
                 question: "Nếu màn hình Scratch là một hệ trục tọa độ có điểm trung tâm là (X: 0, Y: 0). Em đặt tọa độ của nhân vật là X: 150 và Y: -100, nhân vật sẽ di chuyển về vùng nào trên màn hình?",
                 options: [
-                    { text: "Phía trên bên phải", score: 0 },
-                    { text: "Phía dưới bên phải", score: 10 },
-                    { text: "Phía trên bên trái", score: 0 },
-                    { text: "Phía dưới bên trái", score: 0 }
+                    { 
+                        text: "Phía trên bên phải", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Phía trên bên phải có tọa độ X dương và Y cũng dương." 
+                    },
+                    { 
+                        text: "Phía dưới bên phải", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Giá trị X: 150 dương (sang phải) và Y: -100 âm (xuống dưới), tạo nên vùng phía dưới bên phải." 
+                    },
+                    { 
+                        text: "Phía trên bên trái", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Phía trên bên trái có tọa độ X âm và Y dương." 
+                    },
+                    { 
+                        text: "Phía dưới bên trái", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Phía dưới bên trái có cả tọa độ X và Y đều mang giá trị âm." 
+                    }
                 ]
             },
             {
@@ -536,10 +730,26 @@
                 section: "📐 PHẦN 2: HÌNH HỌC & TOÁN CƠ BẢN",
                 question: "Chú mèo Scratch đang hướng về bên phải (90 độ). Em muốn chú mèo lập tức xoay đầu thẳng đứng và hướng đi xuống phía dưới, góc hướng mới của chú mèo sẽ là bao nhiêu?",
                 options: [
-                    { text: "0 độ (hướng lên trên)", score: 0 },
-                    { text: "180 độ (hướng xuống dưới)", score: 10 },
-                    { text: "-90 độ (hướng sang trái)", score: 0 },
-                    { text: "90 độ (hướng sang phải)", score: 0 }
+                    { 
+                        text: "0 độ (hướng lên trên)", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Trong Scratch, góc 0 độ tương ứng với hướng thẳng đứng lên phía trên." 
+                    },
+                    { 
+                        text: "180 độ (hướng xuống dưới)", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Hướng thẳng đứng đi xuống phía dưới được Scratch quy ước là góc 180 độ." 
+                    },
+                    { 
+                        text: "-90 độ (hướng sang trái)", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Hướng sang trái tương ứng với góc -90 độ." 
+                    },
+                    { 
+                        text: "90 độ (hướng sang phải)", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Góc 90 độ là hướng đi sang phải hiện tại của chú mèo." 
+                    }
                 ]
             },
             {
@@ -547,10 +757,26 @@
                 section: "📐 PHẦN 2: HÌNH HỌC & TOÁN CƠ BẢN",
                 question: "Để robot di chuyển vẽ được một hình vuông khép kín, robot phải lặp lại 4 lần hành động: 'Đi thẳng 100 bước' và 'Xoay sang phải ... độ'. Điền số độ thích hợp:",
                 options: [
-                    { text: "90 độ", score: 10 },
-                    { text: "60 độ", score: 0 },
-                    { text: "120 độ", score: 0 },
-                    { text: "45 độ", score: 0 }
+                    { 
+                        text: "90 độ", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Hình vuông có 4 góc bằng nhau và tổng số đo các góc ngoài khi xoay khép kín là 360 độ. Lấy 360 / 4 = 90 độ." 
+                    },
+                    { 
+                        text: "60 độ", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Góc xoay 60 độ lặp lại 4 lần sẽ không tạo thành hình khép kín." 
+                    },
+                    { 
+                        text: "120 độ", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Góc xoay 120 độ lặp lại 3 lần sẽ tạo thành hình tam giác đều khép kín." 
+                    },
+                    { 
+                        text: "45 độ", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Góc xoay 45 độ lặp lại 8 lần mới tạo thành hình bát giác đều." 
+                    }
                 ]
             },
             {
@@ -558,10 +784,26 @@
                 section: "📐 PHẦN 2: HÌNH HỌC & TOÁN CƠ BẢN (Sửa lỗi)",
                 question: "Để robot vẽ một hình tam giác đều (3 cạnh bằng nhau), đoạn mã hiện tại là: Lặp lại 3 lần { Đi thẳng 100 bước; Xoay phải 90 độ }. Đoạn mã này bị lỗi khiến robot không vẽ khép kín được. Em sẽ sửa góc xoay phải thành bao nhiêu độ?",
                 options: [
-                    { text: "60 độ", score: 0 },
-                    { text: "120 độ (vì tổng góc xoay ngoài của tam giác đều là 360 độ)", score: 10 },
-                    { text: "180 độ", score: 0 },
-                    { text: "90 độ", score: 0 }
+                    { 
+                        text: "60 độ", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Góc trong của tam giác đều là 60 độ, nhưng góc quay hướng của robot phải là góc ngoài (180 - 60 = 120 độ) mới tạo được hình khép kín." 
+                    },
+                    { 
+                        text: "120 độ", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Robot di chuyển trên đường thẳng, do đó góc quay hướng là góc ngoài của tam giác: 360 độ / 3 lần xoay = 120 độ." 
+                    },
+                    { 
+                        text: "180 độ", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Góc xoay 180 độ khiến robot quay ngược đầu lại và đi đè lên đường cũ." 
+                    },
+                    { 
+                        text: "90 độ", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Góc xoay 90 độ lặp lại 4 lần dùng để vẽ hình vuông." 
+                    }
                 ]
             },
             // PART 3: LOGICAL THINKING & EVENTS (Q8 - Q11)
@@ -570,10 +812,26 @@
                 section: "🧩 PHẦN 3: TƯ DUY LOGIC & THUẬT TOÁN",
                 question: "Đọc kỹ khối lệnh lặp sau: 'Lặp lại 3 lần { Lặp lại 2 lần { Đi thẳng 1 bước } }'. Sau khi thực hiện xong, nhân vật đã đi được tổng cộng bao nhiêu bước?",
                 options: [
-                    { text: "5 bước", score: 0 },
-                    { text: "6 bước", score: 10 },
-                    { text: "8 bước", score: 0 },
-                    { text: "9 bước", score: 0 }
+                    { 
+                        text: "5 bước", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Phép toán lặp lồng nhau là phép nhân, không phải phép cộng." 
+                    },
+                    { 
+                        text: "6 bước", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Cứ mỗi 1 lần của vòng lặp ngoài (3 lần), nhân vật đi thẳng 2 bước. Tổng cộng: 3 x 2 = 6 bước." 
+                    },
+                    { 
+                        text: "8 bước", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Con số 8 không phải tích của 3 và 2." 
+                    },
+                    { 
+                        text: "9 bước", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Phép toán đúng là: 3 x 2 = 6 bước chứ không phải 3 mũ 2." 
+                    }
                 ]
             },
             {
@@ -581,9 +839,21 @@
                 section: "🧩 PHẦN 3: TƯ DUY LOGIC & THUẬT TOÁN",
                 question: "Đọc quy luật sau: 'NẾU điểm lớn hơn 10 THÌ phát âm thanh Thắng cuộc, NGƯỢC LẠI phát âm thanh Thua cuộc'. Nếu điểm hiện tại của em bằng đúng 10, âm thanh nào sẽ được phát ra?",
                 options: [
-                    { text: "Thắng cuộc", score: 0 },
-                    { text: "Thua cuộc (vì điểm không lớn hơn 10)", score: 10 },
-                    { text: "Không có âm thanh nào phát ra", score: 0 }
+                    { 
+                        text: "Thắng cuộc", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Điểm bằng 10 không thỏa mãn điều kiện LỚN HƠN 10 (10 > 10 là Sai)." 
+                    },
+                    { 
+                        text: "Thua cuộc", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Điều kiện kiểm tra điểm lớn hơn 10 là Sai (vì 10 không lớn hơn 10). Do đó, chương trình sẽ thực hiện hành động ở nhánh 'NGƯỢC LẠI' (Else): phát âm thanh Thua cuộc." 
+                    },
+                    { 
+                        text: "Không có âm thanh nào phát ra", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Cấu trúc NẾU - NGƯỢC LẠI luôn chạy một trong hai trường hợp, không bao giờ bỏ qua." 
+                    }
                 ]
             },
             {
@@ -591,10 +861,26 @@
                 section: "🧩 PHẦN 3: TƯ DUY LOGIC & THUẬT TOÁN",
                 question: "Một biến số A ban đầu bằng 5. Em thực hiện lần lượt các phép toán sau: đặt A = A + 3, sau đó đặt A = A * 2. Giá trị cuối cùng của biến A là bao nhiêu?",
                 options: [
-                    { text: "16 (tính ra 5 + 3 = 8, sau đó nhân 2)", score: 10 },
-                    { text: "11 (tính ra 5 * 2 = 10, sau đó cộng 3)", score: 0 },
-                    { text: "13", score: 0 },
-                    { text: "8", score: 0 }
+                    { 
+                        text: "16", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Các lệnh lập trình chạy tuần tự từ trên xuống: đầu tiên A nhận giá trị 5 + 3 = 8. Sau đó, A nhận giá trị 8 * 2 = 16." 
+                    },
+                    { 
+                        text: "11", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Kết quả này bị nhầm nếu nhân trước cộng sau. Trong lập trình, các khối lệnh chạy lần lượt từ trên xuống." 
+                    },
+                    { 
+                        text: "13", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> A sẽ tăng lên 8, rồi nhân 2 thành 16." 
+                    },
+                    { 
+                        text: "8", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> A bằng 8 sau bước cộng thứ nhất, nhưng bước nhân thứ hai sẽ tăng gấp đôi giá trị này." 
+                    }
                 ]
             },
             {
@@ -602,10 +888,26 @@
                 section: "🧩 PHẦN 3: TƯ DUY LOGIC & THUẬT TOÁN",
                 question: "Trong lập trình game, một sự kiện (Event) là một hành động dùng để kích hoạt đoạn code chạy. Ví dụ nào sau đây KHÔNG phải là một Sự kiện (Event)?",
                 options: [
-                    { text: "Khi phím Space được bấm (When Space key pressed)", score: 0 },
-                    { text: "Khi nhân vật chạm vào quả bóng (When sprite touches ball)", score: 0 },
-                    { text: "Thay đổi điểm số tăng thêm 1 đơn vị (Change score by 1)", score: 10 },
-                    { text: "Khi bấm vào nút Lá cờ xanh để bắt đầu (When Green Flag clicked)", score: 0 }
+                    { 
+                        text: "Khi phím Space được bấm (When Space key pressed)", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Đây là một sự kiện kích hoạt đoạn code chạy khi người chơi bấm nút trên bàn phím." 
+                    },
+                    { 
+                        text: "Khi nhân vật chạm vào quả bóng (When sprite touches ball)", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Đây là sự kiện va chạm cảm biến vật lý rất phổ biến trong lập trình game." 
+                    },
+                    { 
+                        text: "Thay đổi điểm số tăng thêm 1 đơn vị (Change score by 1)", 
+                        score: 10, 
+                        explanation: "<b>Chính xác!</b> Đây là một Câu lệnh thực thi hành động (Action/Operation) nhằm cộng thêm điểm số, không phải sự kiện kích hoạt khởi đầu." 
+                    },
+                    { 
+                        text: "Khi bấm vào nút Lá cờ xanh để bắt đầu (When Green Flag clicked)", 
+                        score: 0, 
+                        explanation: "<b>Chưa đúng.</b> Đây là sự kiện phổ biến nhất trong Scratch dùng để khởi chạy toàn bộ trò chơi." 
+                    }
                 ]
             },
             // PART 4: PERSONAL PREFERENCES (Q12 - Q14, Can skip)
@@ -615,10 +917,26 @@
                 isPreference: true,
                 question: "Nếu được tự tay xây dựng một dự án phần mềm theo ý thích, em muốn thực hiện thể loại nào nhất?",
                 options: [
-                    { text: "Trò chơi hành động (bắn súng, vượt chướng ngại vật...)", category: "game_action" },
-                    { text: "Trò chơi giải đố, trí tuệ hoặc game nông trại nuôi thú", category: "game_logic" },
-                    { text: "Hoạt hình kể chuyện, làm phim ngắn bằng ảnh động", category: "animation" },
-                    { text: "Dự án âm nhạc/Vẽ tranh sáng tạo tự do", category: "art_music" }
+                    { 
+                        text: "Trò chơi hành động (bắn súng, vượt chướng ngại vật...)", 
+                        category: "game_action",
+                        explanation: "<b>Lựa chọn tuyệt vời!</b> Thể loại game hành động (Action Game) luôn thu hút và mang lại nhiều thử thách thú vị trong lập trình Scratch."
+                    },
+                    { 
+                        text: "Trò chơi giải đố, trí tuệ hoặc game nông trại nuôi thú", 
+                        category: "game_logic",
+                        explanation: "<b>Ý tưởng rất hay!</b> Game giải đố hoặc nuôi thú (Logic/Strategy) đòi hỏi thiết kế thuật toán lưu trữ biến số rất chuyên nghiệp."
+                    },
+                    { 
+                        text: "Hoạt hình kể chuyện, làm phim ngắn bằng ảnh động", 
+                        category: "animation",
+                        explanation: "<b>Sáng tạo tuyệt vời!</b> Dự án hoạt hình (Animation) giúp em rèn luyện kỹ năng vẽ hình, hội thoại tuần tự và hiệu ứng chuyển động mượt mà."
+                    },
+                    { 
+                        text: "Dự án âm nhạc/Vẽ tranh sáng tạo tự do", 
+                        category: "art_music",
+                        explanation: "<b>Chất nghệ thuật cao!</b> Dự án nhạc/vẽ (Art/Music Project) giúp em kết hợp âm thanh sống động và vẽ hình đồ họa lập trình toán học."
+                    }
                 ]
             },
             {
@@ -627,10 +945,26 @@
                 isPreference: true,
                 question: "Em yêu thích phong cách thiết kế hình ảnh và chủ đề nào dưới đây nhất?",
                 options: [
-                    { text: "Không gian vũ trụ, Robot và Khoa học viễn tưởng", style: "sci-fi" },
-                    { text: "Động vật dễ thương, thế giới tự nhiên xanh mướt", style: "nature" },
-                    { text: "Phép thuật kì ảo, Hiệp sĩ và Lâu đài pháo hoa", style: "magic" },
-                    { text: "Thiết kế khối gạch Retro cổ điển, Pixel Art cổ điển", style: "pixel" }
+                    { 
+                        text: "Không gian vũ trụ, Robot và Khoa học viễn tưởng", 
+                        style: "sci-fi",
+                        explanation: "<b>Khám phá vũ trụ!</b> Chủ đề Khoa học viễn tưởng (Sci-fi) với dải ngân hà và người máy sẽ cực kỳ ngầu đấy."
+                    },
+                    { 
+                        text: "Động vật dễ thương, thế giới tự nhiên xanh mướt", 
+                        style: "nature",
+                        explanation: "<b>Tự nhiên mát mẻ!</b> Cảnh quan rừng cây, hoa lá và các loài động vật ngộ nghĩnh sẽ làm game rất dễ chịu."
+                    },
+                    { 
+                        text: "Phép thuật kì ảo, Hiệp sĩ và Lâu đài pháo hoa", 
+                        style: "magic",
+                        explanation: "<b>Kỳ ảo thần tiên!</b> Lâu đài phép thuật, rồng bay và các hiệu ứng phép thuật lấp lánh sẽ mang tính thẩm mỹ cao."
+                    },
+                    { 
+                        text: "Thiết kế khối gạch Retro cổ điển, Pixel Art cổ điển", 
+                        style: "pixel",
+                        explanation: "<b>Phong cách Arcade!</b> Pixel Art cổ điển mang lại cảm giác hoài cổ độc đáo giống như các trò chơi điện tử tay cầm ngày xưa."
+                    }
                 ]
             },
             {
@@ -639,10 +973,26 @@
                 isPreference: true,
                 question: "Điều em mong muốn nhất khi kết thúc khóa học này là gì?",
                 options: [
-                    { text: "Tự tay làm được một Game riêng để khoe với bạn bè", goal: "make_game" },
-                    { text: "Học giỏi toán hơn nhờ hiểu sâu các khái niệm logic", goal: "improve_logic" },
-                    { text: "Sử dụng thành thạo các công cụ AI để sinh hình ảnh/nhân vật", goal: "learn_ai" },
-                    { text: "Chỉ đơn giản là khám phá xem lập trình thú vị như thế nào", goal: "explore" }
+                    { 
+                        text: "Tự tay làm được một Game riêng để khoe với bạn bè", 
+                        goal: "make_game",
+                        explanation: "<b>Mục tiêu thực tế!</b> Tự lập trình game hoàn chỉnh sẽ là phần thưởng lớn nhất cho nỗ lực của em suốt khóa học."
+                    },
+                    { 
+                        text: "Học giỏi toán hơn nhờ hiểu sâu các khái niệm logic", 
+                        goal: "improve_logic",
+                        explanation: "<b>Mục tiêu học thuật cao!</b> Trực quan hóa toán học (tọa độ, góc quay) bằng hình ảnh sẽ giúp em yêu thích môn Toán ở trường hơn nhiều."
+                    },
+                    { 
+                        text: "Sử dụng thành thạo các công cụ AI để sinh hình ảnh/nhân vật", 
+                        goal: "learn_ai",
+                        explanation: "<b>Bắt kịp xu thế!</b> Học cách ứng dụng trí tuệ nhân tạo (AI) sẽ chắp cánh cho sự sáng tạo nhân vật độc đáo của em."
+                    },
+                    { 
+                        text: "Chỉ đơn giản là khám phá xem lập trình thú vị như thế nào", 
+                        goal: "explore",
+                        explanation: "<b>Tâm thế học tập tuyệt vời!</b> Sự tò mò khám phá sẽ dẫn dắt em tìm ra những sở thích đam mê mới thú vị của bản thân."
+                    }
                 ]
             }
         ];
@@ -704,6 +1054,21 @@
                 optionsContainer.appendChild(card);
             });
 
+            // Handle explanation box visibility depending on previous selection
+            const expContainer = document.getElementById('explanationContainer');
+            const expText = document.getElementById('explanationText');
+            if (selectedAnswers[currentQuestionIndex] !== undefined && selectedAnswers[currentQuestionIndex] !== -1) {
+                const selectedOpt = currentQ.options[selectedAnswers[currentQuestionIndex]];
+                if (selectedOpt && selectedOpt.explanation) {
+                    expText.innerHTML = selectedOpt.explanation;
+                    expContainer.style.display = 'block';
+                } else {
+                    expContainer.style.display = 'none';
+                }
+            } else {
+                expContainer.style.display = 'none';
+            }
+
             // Adjust buttons visibility
             document.getElementById('btnPrev').style.visibility = currentQuestionIndex > 0 ? 'visible' : 'hidden';
             
@@ -735,6 +1100,19 @@
                     card.classList.remove('selected');
                 }
             });
+
+            // Show explanation
+            const currentQ = questions[currentQuestionIndex];
+            const selectedOpt = currentQ.options[index];
+            const expContainer = document.getElementById('explanationContainer');
+            const expText = document.getElementById('explanationText');
+            
+            if (selectedOpt && selectedOpt.explanation) {
+                expText.innerHTML = selectedOpt.explanation;
+                expContainer.style.display = 'block';
+            } else {
+                expContainer.style.display = 'none';
+            }
         }
 
         // Navigate to Next
@@ -783,9 +1161,51 @@
             }
         }
 
+        // Toast Helper
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Save Attempt to localStorage
+        function saveAttempt(name, phone, score, answers) {
+            try {
+                let attempts = JSON.parse(localStorage.getItem('quizAttempts') || '[]');
+                const newAttempt = {
+                    name: name,
+                    phone: phone,
+                    score: score,
+                    answers: answers,
+                    timestamp: new Date().toLocaleString('vi-VN')
+                };
+                attempts.push(newAttempt);
+                localStorage.setItem('quizAttempts', JSON.stringify(attempts));
+            } catch (e) {
+                console.error("Local storage error:", e);
+            }
+        }
+
+        // Copy and Send Zalo
+        function copyAndOpenZalo(messageText) {
+            navigator.clipboard.writeText(messageText).then(() => {
+                showToast("Đã tự động sao chép báo cáo kết quả!");
+                setTimeout(() => {
+                    // Open Zalo contact link (direct chat page)
+                    window.open("https://zalo.me/0904533033", "_blank");
+                }, 1000);
+            }).catch(err => {
+                console.error("Clipboard copy failed:", err);
+                window.open("https://zalo.me/0904533033", "_blank");
+            });
+        }
+
         // Calculate Scores & Show Results
         function showResults() {
-            // Calculate logic score (first 9 questions)
+            // Calculate logic score (first 11 questions)
             let totalScore = 0;
             for (let i = 0; i < 11; i++) {
                 const ansIdx = selectedAnswers[i];
@@ -793,6 +1213,9 @@
                     totalScore += questions[i].options[ansIdx].score;
                 }
             }
+
+            // Save this attempt to browser local storage
+            saveAttempt(studentName, parentPhone, totalScore, selectedAnswers);
 
             // Hide quiz, show results
             document.getElementById('quiz-step').classList.remove('active');
@@ -820,7 +1243,7 @@
                 💪 <strong>Khuyên dùng từ anh Chấn Phong:</strong> Lập trình là một hành trình rèn luyện. Em hoàn toàn có thể theo kịp khóa học và tự tay tạo ra sản phẩm game của riêng mình nếu có sự <strong>nỗ lực, tập trung cao độ</strong> cùng sự <strong>đồng hành sát sao 1-1</strong> từ anh Chấn Phong xuyên suốt khóa học để hỗ trợ sửa lỗi (debug) ngay tại lớp.`;
             }
 
-            // Project recommendation based on preference questions (Q10 - Q12)
+            // Project recommendation based on preference questions (Q12 - Q14)
             let recProject = "";
             const q10Ans = selectedAnswers[11];
             const q11Ans = selectedAnswers[12];
@@ -845,7 +1268,116 @@
 
             document.getElementById('resultTitle').innerText = title;
             document.getElementById('resultDesc').innerHTML = desc;
+
+            // Update registration button to perform copy and open Zalo
+            const msgReport = `Báo cáo đánh giá năng lực Scratch:
+- Học viên: ${studentName}
+- Số Zalo phụ huynh: ${parentPhone}
+- Điểm logic: ${totalScore}/110 điểm
+- Phân loại: ${title.replace("—", "").replace("!", "")}
+- Đề xuất tốt nghiệp: ${recProject}`;
+
+            const submitBtn = document.querySelector('#step-result .btn-primary');
+            if (submitBtn) {
+                submitBtn.removeAttribute('href');
+                submitBtn.setAttribute('onclick', `copyAndOpenZalo(\`${msgReport}\`)`);
+                submitBtn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> Gửi Báo Cáo Qua Zalo Đăng Ký`;
+            }
         }
-    </script>
+
+        // Secret Click to open Admin Panel
+        let clickCount = 0;
+        function toggleAdminSecret() {
+            clickCount++;
+            if (clickCount >= 5) {
+                clickCount = 0;
+                showAdminPanel();
+            }
+        }
+
+        // Show Admin Panel
+        function showAdminPanel() {
+            // Hide other steps
+            document.getElementById('step-0').classList.remove('active');
+            document.getElementById('quiz-step').classList.remove('active');
+            document.getElementById('step-result').classList.remove('active');
+            document.getElementById('progressBarContainer').style.display = 'none';
+            document.getElementById('step-admin').classList.add('active');
+
+            const attempts = JSON.parse(localStorage.getItem('quizAttempts') || '[]');
+            const tableBody = document.getElementById('adminTableBody');
+            tableBody.innerHTML = "";
+
+            if (attempts.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94A3B8; padding: 2rem;">Chưa có dữ liệu bài test nào được nộp.</td></tr>`;
+                return;
+            }
+
+            // Loop backward to show latest first
+            for (let i = attempts.length - 1; i >= 0; i--) {
+                const item = attempts[i];
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight:600; color:#1E293B;">${item.name}</td>
+                    <td>${item.phone}</td>
+                    <td style="font-weight:700; color:var(--primary);">${item.score}/110</td>
+                    <td style="color:#64748B;">${item.timestamp}</td>
+                    <td>
+                        <button class="admin-btn admin-btn-danger" onclick="deleteAttempt(${i})"><i class="fa-regular fa-trash-can"></i> Xóa</button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            }
+        }
+
+        // Delete Attempt
+        function deleteAttempt(index) {
+            if (confirm("Em có chắc muốn xóa bản ghi này?")) {
+                let attempts = JSON.parse(localStorage.getItem('quizAttempts') || '[]');
+                attempts.splice(index, 1);
+                localStorage.setItem('quizAttempts', JSON.stringify(attempts));
+                showAdminPanel();
+            }
+        }
+
+        // Export attempts to CSV
+        function exportCSV() {
+            const attempts = JSON.parse(localStorage.getItem('quizAttempts') || '[]');
+            if (attempts.length === 0) {
+                alert("Chưa có dữ liệu nào để xuất!");
+                return;
+            }
+
+            // CSV Header with UTF-8 BOM to display accented characters in Excel
+            let csvContent = "﻿Họ Tên Học Viên,Số Zalo Phụ Huynh,Điểm Logic,Thời Gian Nộp\n";
+            
+            attempts.forEach(item => {
+                const name = item.name.replace(/,/g, " ");
+                const phone = item.phone.replace(/,/g, " ");
+                const score = `${item.score}/110`;
+                const date = item.timestamp.replace(/,/g, " ");
+                csvContent += `${name},${phone},${score},${date}\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Bao_Cao_Test_Scratch_${new Date().toISOString().slice(0,10)}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("Đã tải xuống file CSV báo cáo!");
+        }
+
+        // URL trigger for admin
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true' || window.location.hash === '#admin') {
+                showAdminPanel();
+            }
+        };</script>
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check" style="color: #10B981;"></i> <span id="toastMsg">Đã sao chép!</span></div>
 </body>
 </html>
