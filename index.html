@@ -237,11 +237,12 @@
             margin: 0 auto;
         }
 
-        /* Curriculum Timeline */
+        /* Curriculum Timeline V2 */
         .timeline {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             position: relative;
+            padding: 2rem 0;
         }
 
         .timeline::before {
@@ -256,22 +257,31 @@
         }
 
         .timeline-item {
-            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
             position: relative;
-            width: 50%;
-            padding-right: 3rem;
+            width: 100%;
         }
 
         .timeline-item:nth-child(even) {
-            margin-left: auto;
-            padding-right: 0;
-            padding-left: 3rem;
+            flex-direction: row-reverse;
+        }
+
+        .timeline-col-content {
+            width: 45%;
+        }
+
+        .timeline-col-media {
+            width: 45%;
         }
 
         .timeline-dot {
             position: absolute;
-            right: -10px;
-            top: 20px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             width: 24px;
             height: 24px;
             background: var(--gradient-1);
@@ -279,10 +289,6 @@
             border: 4px solid var(--white);
             z-index: 2;
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
-        }
-
-        .timeline-item:nth-child(even) .timeline-dot {
-            left: -14px;
         }
 
         .timeline-content {
@@ -296,6 +302,24 @@
 
         .timeline-content:hover {
             transform: translateY(-5px);
+        }
+
+        .timeline-media-box {
+            width: 100%;
+            height: 220px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #cbd5e1;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .timeline-media-box:hover {
+            transform: scale(1.02);
         }
 
         .week-badge {
@@ -467,15 +491,29 @@
             }
             .timeline::before {
                 left: 20px;
+                transform: none;
             }
             .timeline-item {
-                width: 100%;
-                padding-right: 0;
+                flex-direction: column !important;
+                align-items: flex-start;
                 padding-left: 3rem;
+                margin-bottom: 3rem;
+                width: 100%;
+            }
+            .timeline-col-content,
+            .timeline-col-media {
+                width: 100%;
+            }
+            .timeline-col-media {
+                margin-top: 1.5rem;
             }
             .timeline-dot {
-                left: 8px !important;
-                right: auto;
+                left: 20px !important;
+                top: 25px;
+                transform: translate(-50%, 0);
+            }
+            .timeline-media-box {
+                height: 160px;
             }
             .price-card.popular {
                 transform: none;
@@ -567,73 +605,97 @@
         <div class="timeline">
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="week-badge">Tuần 1</div>
-                    <div style="width:100%; height:140px; border-radius:12px; margin-bottom:1rem; overflow:hidden; background:#f1f5f9; display:flex; align-items:center; justify-content:center; border: 1px dashed #cbd5e1;">
-                        <img src="images/week1.png" alt="Họa Sĩ Số &amp; Thế Giới Chuyển Động" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.85rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:1.5rem; display:block; margin-bottom:0.2rem;\'></i>Minh họa Dự án Tuần 1</div>';">
+                <div class="timeline-col-content">
+                    <div class="timeline-content">
+                        <div class="week-badge">Tuần 1</div>
+                        <h3 style="margin-bottom: 0.5rem;">🎨 Họa Sĩ Số &amp; Thế Giới Chuyển Động</h3>
+                        <p><strong>Con học:</strong> Điều khiển nhân vật theo tọa độ X/Y, lệnh di chuyển, sự kiện bấm phím, cảm biến va chạm.<br><strong>Sản phẩm 1:</strong> <em>"Bức Tranh Số"</em> — vẽ hình thú vị bằng cách lập trình nhân vật đi theo lộ trình.<br><strong>Sản phẩm 2:</strong> <em>"Thế Giới Của Mèo"</em> — nhân vật phản ứng với phím bấm, thay màu khi va chạm.<br>🤖 AI: Gemini tạo nhân vật + vẽ sơ đồ thuật toán trực quan.</p>
                     </div>
-                    <h3 style="margin-bottom: 0.5rem;">🎨 Họa Sĩ Số &amp; Thế Giới Chuyển Động</h3>
-                    <p><strong>Con học:</strong> Điều khiển nhân vật theo tọa độ X/Y, lệnh di chuyển, sự kiện bấm phím, cảm biến va chạm.<br><strong>Sản phẩm 1:</strong> <em>"Bức Tranh Số"</em> — vẽ hình thú vị bằng cách lập trình nhân vật đi theo lộ trình.<br><strong>Sản phẩm 2:</strong> <em>"Thế Giới Của Mèo"</em> — nhân vật phản ứng với phím bấm, thay màu khi va chạm.<br>🤖 AI: Gemini tạo nhân vật + vẽ sơ đồ thuật toán trực quan.</p>
+                </div>
+                <div class="timeline-col-media">
+                    <div class="timeline-media-box">
+                        <img src="images/week1.png" alt="Họa Sĩ Số &amp; Thế Giới Chuyển Động" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.9rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:2rem; display:block; margin-bottom:0.5rem;\'></i>Minh họa Dự án Tuần 1</div>';">
+                    </div>
                 </div>
             </div>
             
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="week-badge">Tuần 2</div>
-                    <div style="width:100%; height:140px; border-radius:12px; margin-bottom:1rem; overflow:hidden; background:#f1f5f9; display:flex; align-items:center; justify-content:center; border: 1px dashed #cbd5e1;">
-                        <img src="images/week2.png" alt="Hoạt Hình &amp; Game Đầu Tiên" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.85rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:1.5rem; display:block; margin-bottom:0.2rem;\'></i>Minh họa Dự án Tuần 2</div>';">
+                <div class="timeline-col-content">
+                    <div class="timeline-content">
+                        <div class="week-badge">Tuần 2</div>
+                        <h3 style="margin-bottom: 0.5rem;">🎭 Hoạt Hình &amp; Game Đầu Tiên</h3>
+                        <p><strong>Con học:</strong> Nhóm lệnh Looks (trang phục, bóng nói), Sound (âm thanh), Operators, Variables (biến số).<br><strong>Sản phẩm 1:</strong> <em>"Kịch Bản Hoạt Hình"</em> — 2 nhân vật tự đối thoại, thay trang phục, phát nhạc (như làm phim hoạt hình mini).<br><strong>Sản phẩm 2:</strong> <em>"Game Hứng Táo"</em> — game có điểm số, tốc độ tăng dần, âm thanh khi bắt được.<br>🤖 AI: Tạo giọng nói nhân vật bằng AI Text-to-Speech.</p>
                     </div>
-                    <h3 style="margin-bottom: 0.5rem;">🎭 Hoạt Hình &amp; Game Đầu Tiên</h3>
-                    <p><strong>Con học:</strong> Nhóm lệnh Looks (trang phục, bóng nói), Sound (âm thanh), Operators, Variables (biến số).<br><strong>Sản phẩm 1:</strong> <em>"Kịch Bản Hoạt Hình"</em> — 2 nhân vật tự đối thoại, thay trang phục, phát nhạc (như làm phim hoạt hình mini).<br><strong>Sản phẩm 2:</strong> <em>"Game Hứng Táo"</em> — game có điểm số, tốc độ tăng dần, âm thanh khi bắt được.<br>🤖 AI: Tạo giọng nói nhân vật bằng AI Text-to-Speech.</p>
+                </div>
+                <div class="timeline-col-media">
+                    <div class="timeline-media-box">
+                        <img src="images/week2.png" alt="Hoạt Hình &amp; Game Đầu Tiên" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.9rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:2rem; display:block; margin-bottom:0.5rem;\'></i>Minh họa Dự án Tuần 2</div>';">
+                    </div>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="week-badge">Tuần 3</div>
-                    <div style="width:100%; height:140px; border-radius:12px; margin-bottom:1rem; overflow:hidden; background:#f1f5f9; display:flex; align-items:center; justify-content:center; border: 1px dashed #cbd5e1;">
-                        <img src="images/week3.png" alt="Hiệu Ứng Nâng Cao" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.85rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:1.5rem; display:block; margin-bottom:0.2rem;\'></i>Minh họa Dự án Tuần 3</div>';">
+                <div class="timeline-col-content">
+                    <div class="timeline-content">
+                        <div class="week-badge">Tuần 3</div>
+                        <h3 style="margin-bottom: 0.5rem;">✨ Hiệu Ứng Nâng Cao</h3>
+                        <p><strong>Con học:</strong> Kỹ thuật Clone (nhân bản vật thể), List và Variable nâng cao.<br><strong>Sản phẩm 1:</strong> <em>"Màn Trình Diễn Pháo Hoa"</em> — hàng trăm hạt pháo hoa màu sắc ngẫu nhiên tạo bằng kỹ thuật Clone.<br><strong>Sản phẩm 2:</strong> <em>"Game Bắn Súng Zombie"</em> — game tiêu diệt zombie di chuyển từ nhiều phía, quản lý điểm số và thanh máu bằng biến số nâng cao.<br>🤖 AI: Chụp ảnh khối lệnh → gửi Gemini để tự debug lỗi.</p>
                     </div>
-                    <h3 style="margin-bottom: 0.5rem;">✨ Hiệu Ứng Nâng Cao</h3>
-                    <p><strong>Con học:</strong> Kỹ thuật Clone (nhân bản vật thể), List và Variable nâng cao.<br><strong>Sản phẩm 1:</strong> <em>"Màn Trình Diễn Pháo Hoa"</em> — hàng trăm hạt pháo hoa màu sắc ngẫu nhiên tạo bằng kỹ thuật Clone.<br><strong>Sản phẩm 2:</strong> <em>"Game Bắn Súng Zombie"</em> — game tiêu diệt zombie di chuyển từ nhiều phía, quản lý điểm số và thanh máu bằng biến số nâng cao.<br>🤖 AI: Chụp ảnh khối lệnh → gửi Gemini để tự debug lỗi.</p>
+                </div>
+                <div class="timeline-col-media">
+                    <div class="timeline-media-box">
+                        <img src="images/week3.png" alt="Hiệu Ứng Nâng Cao" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.9rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:2rem; display:block; margin-bottom:0.5rem;\'></i>Minh họa Dự án Tuần 3</div>';">
+                    </div>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="week-badge">Tuần 4</div>
-                    <div style="width:100%; height:140px; border-radius:12px; margin-bottom:1rem; overflow:hidden; background:#f1f5f9; display:flex; align-items:center; justify-content:center; border: 1px dashed #cbd5e1;">
-                        <img src="images/week4.png" alt="Tư Duy Lập Trình Thật Sự" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.85rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:1.5rem; display:block; margin-bottom:0.2rem;\'></i>Minh họa Dự án Tuần 4</div>';">
+                <div class="timeline-col-content">
+                    <div class="timeline-content">
+                        <div class="week-badge">Tuần 4</div>
+                        <h3 style="margin-bottom: 0.5rem;">🧠 Tư Duy Lập Trình Thật Sự</h3>
+                        <p><strong>Con học:</strong> Custom Blocks (Hàm — tổ chức code gọn gàng), Broadcast (truyền tín hiệu giữa các nhân vật).<br><strong>Buổi 1:</strong> Kiểm tra kiến thức + chọn ý tưởng Dự Án Cuối Khoá (con chọn: game, hoạt hình hay ứng dụng?).<br><strong>Buổi 2:</strong> Bắt đầu xây dựng dự án cá nhân.<br>🤖 AI: Dùng Gemini brainstorm kịch bản, generate nhân vật cho dự án.</p>
                     </div>
-                    <h3 style="margin-bottom: 0.5rem;">🧠 Tư Duy Lập Trình Thật Sự</h3>
-                    <p><strong>Con học:</strong> Custom Blocks (Hàm — tổ chức code gọn gàng), Broadcast (truyền tín hiệu giữa các nhân vật).<br><strong>Buổi 1:</strong> Kiểm tra kiến thức + chọn ý tưởng Dự Án Cuối Khoá (con chọn: game, hoạt hình hay ứng dụng?).<br><strong>Buổi 2:</strong> Bắt đầu xây dựng dự án cá nhân.<br>🤖 AI: Dùng Gemini brainstorm kịch bản, generate nhân vật cho dự án.</p>
+                </div>
+                <div class="timeline-col-media">
+                    <div class="timeline-media-box">
+                        <img src="images/week4.png" alt="Tư Duy Lập Trình Thật Sự" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.9rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:2rem; display:block; margin-bottom:0.5rem;\'></i>Minh họa Dự án Tuần 4</div>';">
+                    </div>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="week-badge">Tuần 5</div>
-                    <div style="width:100%; height:140px; border-radius:12px; margin-bottom:1rem; overflow:hidden; background:#f1f5f9; display:flex; align-items:center; justify-content:center; border: 1px dashed #cbd5e1;">
-                        <img src="images/week5.png" alt="Hoàn Thiện Dự Án" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.85rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:1.5rem; display:block; margin-bottom:0.2rem;\'></i>Minh họa Dự án Tuần 5</div>';">
+                <div class="timeline-col-content">
+                    <div class="timeline-content">
+                        <div class="week-badge">Tuần 5</div>
+                        <h3 style="margin-bottom: 0.5rem;">🚀 Hoàn Thiện Dự Án</h3>
+                        <p><strong>Con học:</strong> Extensions (cảm biến video, text-to-speech tích hợp Scratch). Chấn Phong hỗ trợ debug 1-1 cho từng bạn.<br><strong>Buổi 1:</strong> Học Extensions + tiếp tục xây dựng dự án.<br><strong>Buổi 2:</strong> Test, sửa lỗi và hoàn thiện.<br>🤖 AI: Generate nhân vật và âm thanh cho dự án bằng AI sáng tạo.</p>
                     </div>
-                    <h3 style="margin-bottom: 0.5rem;">🚀 Hoàn Thiện Dự Án</h3>
-                    <p><strong>Con học:</strong> Extensions (cảm biến video, text-to-speech tích hợp Scratch). Chấn Phong hỗ trợ debug 1-1 cho từng bạn.<br><strong>Buổi 1:</strong> Học Extensions + tiếp tục xây dựng dự án.<br><strong>Buổi 2:</strong> Test, sửa lỗi và hoàn thiện.<br>🤖 AI: Generate nhân vật và âm thanh cho dự án bằng AI sáng tạo.</p>
+                </div>
+                <div class="timeline-col-media">
+                    <div class="timeline-media-box">
+                        <img src="images/week5.png" alt="Hoàn Thiện Dự Án" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.9rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:2rem; display:block; margin-bottom:0.5rem;\'></i>Minh họa Dự án Tuần 5</div>';">
+                    </div>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <div class="week-badge" style="background: var(--accent);">Tuần 6 — Tốt Nghiệp 🎓</div>
-                    <div style="width:100%; height:140px; border-radius:12px; margin-bottom:1rem; overflow:hidden; background:#f1f5f9; display:flex; align-items:center; justify-content:center; border: 1px dashed #cbd5e1;">
-                        <img src="images/week6.png" alt="Graduation Day" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.85rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:1.5rem; display:block; margin-bottom:0.2rem;\'></i>Minh họa Dự án Tuần 6</div>';">
+                <div class="timeline-col-content">
+                    <div class="timeline-content">
+                        <div class="week-badge" style="background: var(--accent);">Tuần 6 — Tốt Nghiệp 🎓</div>
+                        <h3 style="margin-bottom: 0.5rem;">🎉 Graduation Day</h3>
+                        <p><strong>Buổi 1:</strong> Hoàn thiện dự án + chuẩn bị thuyết trình ngắn (mỗi bạn giới thiệu game của mình 2 phút).<br><strong>Buổi 2 — Demo Day:</strong> Mỗi bạn tự tin trình bày sản phẩm trước lớp. <em>Phụ huynh được mời tham dự!</em><br>🎓 Trao <strong>Chứng Chỉ Hoàn Thành Khoá Học</strong> từ Chấn Phong cho từng học viên.</p>
                     </div>
-                    <h3 style="margin-bottom: 0.5rem;">🎉 Graduation Day</h3>
-                    <p><strong>Buổi 1:</strong> Hoàn thiện dự án + chuẩn bị thuyết trình ngắn (mỗi bạn giới thiệu game của mình 2 phút).<br><strong>Buổi 2 — Demo Day:</strong> Mỗi bạn tự tin trình bày sản phẩm trước lớp. <em>Phụ huynh được mời tham dự!</em><br>🎓 Trao <strong>Chứng Chỉ Hoàn Thành Khoá Học</strong> từ Chấn Phong cho từng học viên.</p>
+                </div>
+                <div class="timeline-col-media">
+                    <div class="timeline-media-box">
+                        <img src="images/week6.png" alt="Graduation Day" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'text-align:center; color:#94a3b8; font-size:0.9rem;\'><i class=\'fa-regular fa-image\' style=\'font-size:2rem; display:block; margin-bottom:0.5rem;\'></i>Minh họa Dự án Tuần 6</div>';">
+                    </div>
                 </div>
             </div>
         </div>
