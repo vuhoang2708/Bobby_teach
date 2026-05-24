@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh Giá Mức Độ Phù Hợp | Passionate Developer 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #F59E0B;
+            --accent: #10B981;
+            --dark: #1E293B;
+            --light: #F8FAFC;
+            --white: #FFFFFF;
+            --gradient-1: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            --glass: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        body {
+            background-color: #EEF2F6;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+        }
+
+        /* Container */
+        .quiz-container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        /* Header Logo */
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #E2E8F0;
+            border-radius: 4px;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gradient-1);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Forms & Steps */
+        .step {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0F172A;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            color: #64748B;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus, input[type="tel"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Option Buttons */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .option-card {
+            display: flex;
+            align-items: center;
+            padding: 1.1rem 1.3rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            position: relative;
+            background: var(--white);
+        }
+
+        .option-card:hover {
+            border-color: var(--primary);
+            background: #F5F3FF;
+        }
+
+        .option-card.selected {
+            border-color: var(--primary);
+            background: #EEF2F6;
+            color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.08);
+        }
+
+        .option-prefix {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #F1F5F9;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .option-card.selected .option-prefix {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Buttons Navigation */
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #E2E8F0;
+            color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background: #CBD5E1;
+        }
+
+        .btn-skip {
+            background: transparent;
+            color: #94A3B8;
+            border: 2px dashed #E2E8F0;
+        }
+
+        .btn-skip:hover {
+            border-color: #CBD5E1;
+            color: #64748B;
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            text-align: center;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .modal h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #0F172A;
+        }
+
+        .modal p {
+            color: #64748B;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Results Screen */
+        .result-card {
+            text-align: center;
+        }
+
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #EEF2F6;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.25);
+        }
+
+        .score-val {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-lbl {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.2rem;
+        }
+
+        .result-desc {
+            color: #334155;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            text-align: left;
+            background: #F8FAFC;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .interest-rec {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px dashed #E2E8F0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: #94A3B8;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <!-- Logo -->
+        <div class="quiz-header">
+            <div class="logo">
+                <i class="fa-solid fa-code"></i> Passionate Developer 2026
+            </div>
+            <p style="font-size: 0.9rem; color: #64748B;">Bài khảo sát đánh giá năng lực &amp; định hướng lộ trình học thử</p>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="progress-container" id="progressBarContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- STEP 0: Welcome Screen -->
+        <div class="step active" id="step-0">
+            <h2 style="text-align: center;">Đánh Giá Mức Độ Phù Hợp</h2>
+            <p class="subtitle" style="text-align: center;">Chào mừng con đến với khóa học lập trình cùng anh Chấn Phong! Khảo sát gồm 12 câu hỏi trắc nghiệm vui (10-15 phút) giúp anh xác định tư duy logic và sở thích đề tài của con.</p>
+            
+            <div class="form-group">
+                <label for="studentName"><i class="fa-regular fa-user"></i> Họ tên của học viên:</label>
+                <input type="text" id="studentName" placeholder="Ví dụ: Nguyễn Hải Đăng" required>
+            </div>
+            <div class="form-group">
+                <label for="parentPhone"><i class="fa-solid fa-phone"></i> Số điện thoại Zalo của phụ huynh:</label>
+                <input type="tel" id="parentPhone" placeholder="Ví dụ: 0901234567" required>
+            </div>
+
+            <div class="btn-container" style="justify-content: center;">
+                <button class="btn btn-primary" onclick="startQuiz()">Bắt đầu ngay <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <!-- QUESTION STEPS (Dynamic templates populated by JS) -->
+        <div class="step" id="quiz-step">
+            <h2 id="questionText">Câu hỏi...</h2>
+            <p class="subtitle" id="sectionLabel">Phần 1: Kỹ năng máy tính</p>
+            <div class="options-list" id="optionsList">
+                <!-- Option cards here -->
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-secondary" id="btnPrev" onclick="prevQuestion()"><i class="fa-solid fa-chevron-left"></i> Quay lại</button>
+                <div>
+                    <button class="btn btn-skip" id="btnSkip" onclick="confirmSkip()"><i class="fa-solid fa-forward"></i> Bỏ qua</button>
+                    <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()">Tiếp tục <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP RESULT: Results & Recommendations -->
+        <div class="step" id="step-result">
+            <div class="result-card">
+                <div class="result-badge">
+                    <i class="fa-solid fa-award"></i> Kết quả đánh giá
+                </div>
+                <div class="score-circle">
+                    <span class="score-val" id="scoreValue">0</span>
+                    <span class="score-lbl">Điểm Logic</span>
+                </div>
+
+                <h3 style="font-size: 1.4rem; margin-bottom: 1rem;" id="resultTitle">Đang tính toán...</h3>
+                <div class="result-desc" id="resultDesc">
+                    <!-- Dynamic analysis text -->
+                </div>
+
+                <div class="btn-container" style="justify-content: center;">
+                    <a href="https://passionate-developer-2026.vercel.app/#dang-ky" class="btn btn-primary" style="text-decoration: none;">
+                        <i class="fa-solid fa-calendar-check"></i> Đăng Ký Lớp Học Ngay
+                    </a>
+                </div>
+                
+                <p class="footer-note">Báo cáo chi tiết đã được ghi nhận. Anh Chấn Phong sẽ liên hệ phụ huynh qua số Zalo đã cung cấp để trao đổi cụ thể.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skip Warning Modal -->
+    <div class="modal-overlay" id="skipModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Thông tin quan trọng!</h3>
+            <p>Đây là thông tin cực kỳ quan trọng để anh Chấn Phong xây dựng lộ trình học cá nhân hóa và chọn đề tài tốt nghiệp (Graduation Day) phù hợp nhất với sở thích của con. Nếu con chọn bỏ qua, con sẽ cần cung cấp bổ sung thông tin này sau.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeModal()">Quay lại trả lời</button>
+                <button class="btn btn-primary" onclick="forceSkip()">Bỏ qua luôn</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Questions Data
+        const questions = [
+            // PART 1: COMPUTER SKILLS (Q1 - Q3)
+            {
+                id: 1,
+                section: "🖥️ PHẦN 1: KỸ NĂNG MÁY TÍNH CƠ BẢN",
+                question: "Tổ hợp phím tắt nhanh nào trên bàn phím dùng để 'Sao chép' (Copy) một đoạn văn bản hoặc hình ảnh?",
+                options: [
+                    { text: "Ctrl + C", score: 10 },
+                    { text: "Ctrl + V", score: 0 },
+                    { text: "Ctrl + Z", score: 0 },
+                    { text: "Con chưa biết tổ hợp phím này", score: 0 }
+                ]
+            },
+            {
+                id: 2,
+                section: "🖥️ PHẦN 1: KỸ NĂNG MÁY TÍNH CƠ BẢN",
+                question: "Con tự tin nhất khi dùng thiết bị nào dưới đây để học và thực hành lập trình?",
+                options: [
+                    { text: "Máy tính bàn (Desktop) / Máy tính xách tay (Laptop) có chuột rời", score: 10 },
+                    { text: "Laptop sử dụng bàn di chuột cảm ứng (Touchpad)", score: 5 },
+                    { text: "Máy tính bảng (iPad/Tablet)", score: 0 },
+                    { text: "Điện thoại thông minh", score: 0 }
+                ]
+            },
+            {
+                id: 3,
+                section: "🖥️ PHẦN 1: KỸ NĂNG MÁY TÍNH CƠ BẢN",
+                question: "Khi con tải một hình ảnh từ trên mạng về máy tính, thông thường tệp ảnh đó sẽ tự động được lưu trữ ở thư mục mặc định nào?",
+                options: [
+                    { text: "Downloads (Tải về)", score: 10 },
+                    { text: "Recycle Bin (Thùng rác)", score: 0 },
+                    { text: "Desktop (Màn hình chính)", score: 5 },
+                    { text: "Documents (Tài liệu)", score: 5 }
+                ]
+            },
+            // PART 2: GEOMETRY & MATH (Q4 - Q6)
+            {
+                id: 4,
+                section: "📐 PHẦN 2: HÌNH HỌC & TOÁN CƠ BẢN",
+                question: "Nếu màn hình Scratch là một hệ trục tọa độ có điểm trung tâm là (X: 0, Y: 0). Con đặt tọa độ của nhân vật là X: 150 và Y: -100, nhân vật sẽ di chuyển về vùng nào trên màn hình?",
+                options: [
+                    { text: "Phía trên bên phải", score: 0 },
+                    { text: "Phía dưới bên phải", score: 10 },
+                    { text: "Phía trên bên trái", score: 0 },
+                    { text: "Phía dưới bên trái", score: 0 }
+                ]
+            },
+            {
+                id: 5,
+                section: "📐 PHẦN 2: HÌNH HỌC & TOÁN CƠ BẢN",
+                question: "Chú mèo Scratch đang hướng về bên phải (90 độ). Con muốn chú mèo lập tức xoay đầu thẳng đứng và hướng đi xuống phía dưới, góc hướng mới của chú mèo sẽ là bao nhiêu?",
+                options: [
+                    { text: "0 độ (hướng lên trên)", score: 0 },
+                    { text: "180 độ (hướng xuống dưới)", score: 10 },
+                    { text: "-90 độ (hướng sang trái)", score: 0 },
+                    { text: "90 độ (hướng sang phải)", score: 0 }
+                ]
+            },
+            {
+                id: 6,
+                section: "📐 PHẦN 2: HÌNH HỌC & TOÁN CƠ BẢN",
+                question: "Để robot di chuyển vẽ được một hình vuông khép kín, robot phải lặp lại 4 lần hành động: 'Đi thẳng 100 bước' và 'Xoay sang phải ... độ'. Điền số độ thích hợp:",
+                options: [
+                    { text: "90 độ", score: 10 },
+                    { text: "60 độ", score: 0 },
+                    { text: "120 độ", score: 0 },
+                    { text: "45 độ", score: 0 }
+                ]
+            },
+            // PART 3: LOGICAL THINKING (Q7 - Q9)
+            {
+                id: 7,
+                section: "🧩 PHẦN 3: TƯ DUY LOGIC & THUẬT TOÁN",
+                question: "Đọc kỹ khối lệnh lặp sau: 'Lặp lại 3 lần { Lặp lại 2 lần { Đi thẳng 1 bước } }'. Sau khi thực hiện xong, nhân vật đã đi được tổng cộng bao nhiêu bước?",
+                options: [
+                    { text: "5 bước", score: 0 },
+                    { text: "6 bước", score: 10 },
+                    { text: "8 bước", score: 0 },
+                    { text: "9 bước", score: 0 }
+                ]
+            },
+            {
+                id: 8,
+                section: "🧩 PHẦN 3: TƯ DUY LOGIC & THUẬT TOÁN",
+                question: "Đọc quy luật sau: 'NẾU điểm lớn hơn 10 THÌ phát âm thanh Thắng cuộc, NGƯỢC LẠI phát âm thanh Thua cuộc'. Nếu điểm hiện tại của con bằng đúng 10, âm thanh nào sẽ được phát ra?",
+                options: [
+                    { text: "Thắng cuộc", score: 0 },
+                    { text: "Thua cuộc (vì điểm không lớn hơn 10)", score: 10 },
+                    { text: "Không có âm thanh nào phát ra", score: 0 }
+                ]
+            },
+            {
+                id: 9,
+                section: "🧩 PHẦN 3: TƯ DUY LOGIC & THUẬT TOÁN",
+                question: "Một biến số A ban đầu bằng 5. Con thực hiện lần lượt các phép toán sau: đặt A = A + 3, sau đó đặt A = A * 2. Giá trị cuối cùng của biến A là bao nhiêu?",
+                options: [
+                    { text: "16 (tính ra 5 + 3 = 8, sau đó nhân 2)", score: 10 },
+                    { text: "11 (tính ra 5 * 2 = 10, sau đó cộng 3)", score: 0 },
+                    { text: "13", score: 0 },
+                    { text: "8", score: 0 }
+                ]
+            },
+            // PART 4: PERSONAL PREFERENCES (Q10 - Q12, Can skip)
+            {
+                id: 10,
+                section: "🎨 PHẦN 4: KHẢO SÁT SỞ THÍCH CÁ NHÂN",
+                isPreference: true,
+                question: "Nếu được tự tay xây dựng một dự án phần mềm theo ý thích, con muốn thực hiện thể loại nào nhất?",
+                options: [
+                    { text: "Trò chơi hành động (bắn súng, vượt chướng ngại vật...)", category: "game_action" },
+                    { text: "Trò chơi giải đố, trí tuệ hoặc game nông trại nuôi thú", category: "game_logic" },
+                    { text: "Hoạt hình kể chuyện, làm phim ngắn bằng ảnh động", category: "animation" },
+                    { text: "Dự án âm nhạc/Vẽ tranh sáng tạo tự do", category: "art_music" }
+                ]
+            },
+            {
+                id: 11,
+                section: "🎨 PHẦN 4: KHẢO SÁT SỞ THÍCH CÁ NHÂN",
+                isPreference: true,
+                question: "Con yêu thích phong cách thiết kế hình ảnh và chủ đề nào dưới đây nhất?",
+                options: [
+                    { text: "Không gian vũ trụ, Robot và Khoa học viễn tưởng", style: "sci-fi" },
+                    { text: "Động vật dễ thương, thế giới tự nhiên xanh mướt", style: "nature" },
+                    { text: "Phép thuật kì ảo, Hiệp sĩ và Lâu đài pháo hoa", style: "magic" },
+                    { text: "Thiết kế khối gạch Retro cổ điển, Pixel Art cổ điển", style: "pixel" }
+                ]
+            },
+            {
+                id: 12,
+                section: "🎨 PHẦN 4: KHẢO SÁT SỞ THÍCH CÁ NHÂN",
+                isPreference: true,
+                question: "Điều con mong muốn nhất khi kết thúc khóa học này là gì?",
+                options: [
+                    { text: "Tự tay làm được một Game riêng để khoe với bạn bè", goal: "make_game" },
+                    { text: "Học giỏi toán hơn nhờ hiểu sâu các khái niệm logic", goal: "improve_logic" },
+                    { text: "Sử dụng thành thạo các công cụ AI để sinh hình ảnh/nhân vật", goal: "learn_ai" },
+                    { text: "Chỉ đơn giản là khám phá xem lập trình thú vị như thế nào", goal: "explore" }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let selectedAnswers = {}; // Store chosen options by index
+        let studentName = "";
+        let parentPhone = "";
+
+        // Start Quiz
+        function startQuiz() {
+            const nameInput = document.getElementById('studentName').value.trim();
+            const phoneInput = document.getElementById('parentPhone').value.trim();
+
+            if (!nameInput || !phoneInput) {
+                alert("Vui lòng nhập đầy đủ tên học viên và số điện thoại Zalo của phụ huynh để bắt đầu!");
+                return;
+            }
+
+            studentName = nameInput;
+            parentPhone = phoneInput;
+
+            // Hide step 0, show quiz step
+            document.getElementById('step-0').classList.remove('active');
+            document.getElementById('quiz-step').classList.add('active');
+            document.getElementById('progressBarContainer').style.display = 'block';
+            
+            loadQuestion();
+        }
+
+        // Render Current Question
+        function loadQuestion() {
+            const currentQ = questions[currentQuestionIndex];
+            
+            // Progress bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+
+            // Question texts
+            document.getElementById('questionText').innerText = `Câu ${currentQuestionIndex + 1}: ${currentQ.question}`;
+            document.getElementById('sectionLabel').innerHTML = `<i class="fa-solid fa-tags"></i> ${currentQ.section}`;
+
+            // Render options
+            const optionsContainer = document.getElementById('optionsList');
+            optionsContainer.innerHTML = "";
+
+            currentQ.options.forEach((opt, idx) => {
+                const isSelected = selectedAnswers[currentQuestionIndex] === idx;
+                
+                const card = document.createElement('div');
+                card.className = `option-card ${isSelected ? 'selected' : ''}`;
+                card.onclick = () => selectOption(idx);
+
+                const prefix = String.fromCharCode(65 + idx); // A, B, C, D
+                card.innerHTML = `
+                    <div class="option-prefix">${prefix}</div>
+                    <div class="option-text">${opt.text}</div>
+                `;
+                optionsContainer.appendChild(card);
+            });
+
+            // Adjust buttons visibility
+            document.getElementById('btnPrev').style.visibility = currentQuestionIndex > 0 ? 'visible' : 'hidden';
+            
+            // Show Skip button only for preference questions
+            if (currentQ.isPreference) {
+                document.getElementById('btnSkip').style.display = 'inline-flex';
+            } else {
+                document.getElementById('btnSkip').style.display = 'none';
+            }
+
+            // Adjust Next button text on the last question
+            if (currentQuestionIndex === questions.length - 1) {
+                document.getElementById('btnNext').innerHTML = `Xem kết quả <i class="fa-solid fa-square-poll-vertical"></i>`;
+            } else {
+                document.getElementById('btnNext').innerHTML = `Tiếp tục <i class="fa-solid fa-chevron-right"></i>`;
+            }
+        }
+
+        // Handle Option Click
+        function selectOption(index) {
+            selectedAnswers[currentQuestionIndex] = index;
+            
+            // Re-render to update selected styling
+            const cards = document.querySelectorAll('.option-card');
+            cards.forEach((card, idx) => {
+                if (idx === index) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+        }
+
+        // Navigate to Next
+        function nextQuestion() {
+            if (selectedAnswers[currentQuestionIndex] === undefined) {
+                alert("Con hãy chọn một phương án trả lời trước khi tiếp tục nhé!");
+                return;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Navigate to Previous
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        // Trigger Skip Alert Modal
+        function confirmSkip() {
+            document.getElementById('skipModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('skipModal').classList.remove('active');
+        }
+
+        // Confirm Skip from Modal
+        function forceSkip() {
+            closeModal();
+            // Fill default preference fields or leave empty
+            selectedAnswers[currentQuestionIndex] = -1; // -1 represents skipped
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Calculate Scores & Show Results
+        function showResults() {
+            // Calculate logic score (first 9 questions)
+            let totalScore = 0;
+            for (let i = 0; i < 9; i++) {
+                const ansIdx = selectedAnswers[i];
+                if (ansIdx !== undefined && ansIdx !== -1) {
+                    totalScore += questions[i].options[ansIdx].score;
+                }
+            }
+
+            // Hide quiz, show results
+            document.getElementById('quiz-step').classList.remove('active');
+            document.getElementById('progressBarContainer').style.display = 'none';
+            document.getElementById('step-result').classList.add('active');
+
+            // Render score
+            document.getElementById('scoreValue').innerText = `${totalScore}`;
+
+            // Build analysis
+            let title = "";
+            let desc = "";
+
+            if (totalScore >= 70) {
+                title = `Lập Trình Viên Tiềm Năng — Level 1-2!`;
+                desc = `<strong>Chúc mừng ${studentName}!</strong> Con có tư duy logic, khả năng suy luận hình học và thao tác máy tính cực kỳ nhạy bén. Con sẽ nắm bắt các bài học lập trình Scratch rất nhanh.<br><br>
+                💡 <strong>Đặc điểm học tập:</strong> Các khái niệm vòng lặp kép hay biến số toán học không làm khó được con. Anh Chấn Phong sẽ giao thêm các nhiệm vụ bổ sung hoặc tăng cấp thử thách ở các buổi thực hành để con phát huy tối đa thực lực.`;
+            } else if (totalScore >= 40) {
+                title = `Học Viên Sẵn Sàng — Level 1!`;
+                desc = `<strong>Tuyệt vời ${studentName}!</strong> Tư duy hình học và logic của con rất tốt. Con có đầy đủ tố chất nền tảng để bắt đầu học lập trình Scratch.<br><br>
+                💡 <strong>Đặc điểm học tập:</strong> Con nắm tốt các logic tuần tự, tuy nhiên kỹ năng phím tắt hay trục tọa độ âm lớn có thể cần rèn luyện thêm một chút ở tuần đầu tiên. Anh Chấn Phong sẽ hướng dẫn chi tiết cách kéo thả khối lệnh và tối ưu nhóm lệnh di chuyển để con bắt kịp nhanh chóng nhất.`;
+            } else {
+                title = `Học Viên Cần Nỗ Lực & Hỗ Trợ Sát Sao — Level 0!`;
+                desc = `<strong>Chào ${studentName}!</strong> Tuy kết quả các câu hỏi logic toán học chưa đạt mức tối đa, nhưng đây hoàn toàn là điều bình thường vì các khái niệm góc quay và hệ tọa độ X, Y có thể con chưa được làm quen nhiều ở trường học.<br><br>
+                💪 <strong>Khuyên dùng từ anh Chấn Phong:</strong> Lập trình là một hành trình rèn luyện. Con hoàn toàn có thể theo kịp khóa học và tự tay tạo ra sản phẩm game của riêng mình nếu có sự <strong>nỗ lực, tập trung cao độ</strong> cùng sự <strong>đồng hành sát sao 1-1</strong> từ anh Chấn Phong xuyên suốt khóa học để hỗ trợ sửa lỗi (debug) ngay tại lớp.`;
+            }
+
+            // Project recommendation based on preference questions (Q10 - Q12)
+            let recProject = "";
+            const q10Ans = selectedAnswers[9];
+            const q11Ans = selectedAnswers[10];
+
+            if (q10Ans === 0) { // Action Game
+                let style = q11Ans === 0 ? "không gian viễn tưởng" : (q11Ans === 2 ? "hiệp sĩ phép thuật" : "hành động sinh tồn");
+                recProject = `Game hành động "Zombie Shooter" chủ đề ${style}`;
+            } else if (q10Ans === 1) { // Puzzle/Logic Game
+                recProject = `Trò chơi trí tuệ giải đố "Game Hứng Táo" hoặc "Nông Trại Vui Vẻ"`;
+            } else if (q10Ans === 2) { // Animation
+                recProject = `Dự án phim hoạt hình mini "Kịch Bản Đối Thoại" sáng tạo`;
+            } else if (q10Ans === 3) { // Art/Music
+                recProject = `Ứng dụng sáng tác nhạc tương tác "Băng Nhạc Tự Mix"`;
+            } else {
+                recProject = `Dự án game tự chọn tùy biến theo sở thích cá nhân`;
+            }
+
+            desc += `<div class="interest-rec">
+                <i class="fa-solid fa-lightbulb"></i> <strong>Đề xuất đề tài tốt nghiệp cuối khóa:</strong><br>
+                Với sở thích của con, dự án phù hợp nhất làm đồ án tốt nghiệp sẽ là: <strong>${recProject}</strong>.
+            </div>`;
+
+            document.getElementById('resultTitle').innerText = title;
+            document.getElementById('resultDesc').innerHTML = desc;
+        }
+    </script>
+</body>
+</html>
