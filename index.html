@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passionate Developer 2026 | Khai Mở Đam Mê Lập Trình Cùng Chấn Phong</title>
+    <title>Passionate Developer 2026 | Khai Mở Đam Mê Lập Trình</title>
     <meta name="description" content="Khóa học lập trình Scratch online Hè 2026 cùng Chấn Phong (14 tuổi) — Champion Olympic Tin học Quốc tế tại Singapore. Lớp siêu nhỏ 5-6 em, tích hợp AI, dành cho trẻ 8-12 tuổi.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -800,6 +800,98 @@
             .hero-usp { grid-template-columns: 1fr; }
         }
 
+        /* Scratch Intro Section */
+        #scratch-intro {
+            background-color: var(--light);
+            scroll-margin-top: 80px;
+        }
+
+        .scratch-intro-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .scratch-video-container {
+            width: 100%;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: #000;
+            line-height: 0;
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+
+        .scratch-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius);
+        }
+
+        .scratch-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .badge-mit {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: fit-content;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .benefit-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+
+        .benefit-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--dark);
+        }
+
+        .benefit-item p {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+            .scratch-intro-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -810,15 +902,17 @@
             <i class="fa-solid fa-code"></i> Passionate Developer 2026
         </div>
         <div>
-            <a href="#chuong-trinh" class="btn" style="color: var(--dark);">Chương trình</a>
-            <a href="#dang-ky" class="btn btn-primary">Đăng Ký Ngay</a>
+            <a href="#ve-bobby" class="btn" style="color: var(--dark);">Người hướng dẫn</a>
+            <a href="#scratch-intro" class="btn" style="color: var(--dark);">Scratch là gì?</a>
+            <a href="#chuong-trinh" class="btn" style="color: var(--dark);">Chương trình học</a>
+            <a href="#dang-ky" class="btn btn-primary">Đăng ký ngay</a>
         </div>
     </nav>
 
     <section class="hero">
         <div class="hero-content">
             <div class="tag"><i class="fa-solid fa-star"></i> Mùa Hè 2026 Đã Trở Lại!</div>
-            <h1><span>Khai Mở Đam Mê Lập Trình</span> Cùng Chấn Phong</h1>
+            <h1><span>Khai Mở Đam Mê Lập Trình</span></h1>
             <div class="hero-usp">
                 <div class="usp-item usp-1">
                     <i class="fa-solid fa-users"></i>
@@ -879,7 +973,7 @@
 
     <section id="ve-bobby" style="background: white;">
         <div class="section-header">
-            <h2>Chấn Phong Là Ai?</h2>
+            <h2>Người dẫn dắt và truyền cảm hứng là ai?</h2>
             <p>Hành trình từ một cậu bé nhút nhát đến bục nhận giải quốc tế.</p>
         </div>
         
@@ -897,6 +991,56 @@
                     <li style="margin-bottom: 0.8rem;">🥇 <strong>Giải Nhất</strong> — Science &amp; Engineering Research Competition 2025–2026 (WASS)</li>
                     <li>🥉 <strong>Giải Ba Thành phố</strong> — Science &amp; Engineering Research Competition (WASS)</li>
                 </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="scratch-intro" style="background: var(--light); scroll-margin-top: 80px;">
+        <div class="section-header">
+            <h2>Scratch Là Gì?</h2>
+            <p>Vì sao MIT Scratch là ngôn ngữ khởi đầu hoàn hảo nhất cho trẻ 8–12 tuổi?</p>
+        </div>
+        
+        <div class="scratch-intro-grid">
+            <!-- Cột 1: Video Giới thiệu -->
+            <div class="scratch-video-container">
+                <video controls poster="images/week1.png">
+                    <source src="images/Scratch_Tu_Xem_Den_Tao.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ phát video.
+                </video>
+            </div>
+            
+            <!-- Cột 2: Các lợi ích chính -->
+            <div class="scratch-benefits">
+                <span class="badge-mit"><i class="fa-solid fa-graduation-cap"></i> Phát triển bởi MIT Media Lab</span>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+                    <div>
+                        <h4>Kéo thả trực quan như xếp hình LEGO</h4>
+                        <p>Loại bỏ hoàn toàn rào cản cú pháp phức tạp. Trẻ không lo bị lỗi chính tả hay thiếu dấu chấm phẩy như ngôn ngữ viết.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div>
+                        <h4>Hình thành Tư duy Máy tính (Computational Thinking)</h4>
+                        <p>Học đầy đủ khái niệm lập trình cốt lõi (Vòng lặp, Điều kiện, Biến số, Hàm) qua các dự án tự sáng tạo.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <div>
+                        <h4>Bệ phóng vững chắc cho tương lai</h4>
+                        <p>Làm chủ tư duy thuật toán trực quan trước khi chuyển tiếp tự nhiên sang Python, Javascript và công nghệ AI.</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1rem;">
+                    <a href="quiz.html" class="btn btn-primary" style="text-decoration: none;"><i class="fa-solid fa-clipboard-question"></i> Kiểm tra sự phù hợp</a>
+                </div>
             </div>
         </div>
     </section>
@@ -1077,7 +1221,7 @@
 
     <footer>
         <div style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;"><i class="fa-solid fa-code"></i> Passionate Developer 2026</div>
-        <p style="margin-bottom: 2rem; color: #94A3B8;">Khai mở đam mê lập trình — một học viên nhí một lần.</p>
+        <p style="margin-bottom: 2rem; color: #94A3B8;">Khai mở đam mê lập trình — một học viên nhí một thế giới sáng tạo.</p>
         <p style="color: #64748B; font-size: 0.9rem;">&copy; 2026 Passionate Developer. Designed with ❤️ for Summer 2026.</p>
     </footer>
     </div>
