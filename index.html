@@ -726,6 +726,77 @@
             background: #FCA5A5;
         }
 
+        /* Hero USPs */
+        .hero-usp {
+            margin-bottom: 2.5rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+        .usp-item {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUpUSP 0.6s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        .usp-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: skewX(-20deg);
+            transition: all 0.5s ease;
+        }
+        .usp-item:hover::before {
+            left: 150%;
+        }
+        .usp-item:hover {
+            transform: translateY(-5px);
+            background: #ffffff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        .usp-1 { animation-delay: 0.1s; border-top: 3px solid var(--primary); }
+        .usp-2 { animation-delay: 0.2s; border-top: 3px solid var(--secondary); }
+        .usp-3 { animation-delay: 0.3s; border-top: 3px solid var(--accent); }
+        .usp-4 { animation-delay: 0.4s; border-top: 3px solid #EC4899; }
+        .usp-item i {
+            font-size: 1.5rem;
+            margin-top: 0.2rem;
+        }
+        .usp-1 i { color: var(--primary); }
+        .usp-2 i { color: var(--secondary); }
+        .usp-3 i { color: var(--accent); }
+        .usp-4 i { color: #EC4899; }
+        .usp-item strong {
+            display: block;
+            font-size: 1.05rem;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+        .usp-item p {
+            font-size: 0.9rem !important;
+            line-height: 1.4 !important;
+            margin-bottom: 0 !important;
+            color: #475569 !important;
+        }
+        @keyframes fadeUpUSP {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 600px) {
+            .hero-usp { grid-template-columns: 1fr; }
+        }
+
     </style>
 </head>
 <body>
@@ -745,7 +816,36 @@
         <div class="hero-content">
             <div class="tag"><i class="fa-solid fa-star"></i> Mùa Hè 2026 Đã Trở Lại!</div>
             <h1><span>Khai Mở Đam Mê Lập Trình</span> Cùng Chấn Phong</h1>
-            <p>Lớp học Scratch nhỏ, chuyên sâu — nơi mỗi đứa trẻ được code theo cách của riêng mình. Dành cho trẻ 8–12 tuổi. Tối đa 5–6 học viên, tích hợp AI tools hiện đại.</p>
+            <div class="hero-usp">
+                <div class="usp-item usp-1">
+                    <i class="fa-solid fa-users"></i>
+                    <div>
+                        <strong>Sĩ Số "Siêu Nhỏ" (5-6 Bạn)</strong>
+                        <p>Mỗi bạn đều có cơ hội thể hiện bản thân và được theo sát 1-1.</p>
+                    </div>
+                </div>
+                <div class="usp-item usp-2">
+                    <i class="fa-solid fa-seedling"></i>
+                    <div>
+                        <strong>Khởi Đầu Dễ Dàng (8-12 Tuổi)</strong>
+                        <p>Chỉ cần một chút kiến thức nền, sự nỗ lực và tinh thần ham học.</p>
+                    </div>
+                </div>
+                <div class="usp-item usp-3">
+                    <i class="fa-solid fa-palette"></i>
+                    <div>
+                        <strong>Dự Án Cá Nhân Hóa</strong>
+                        <p>Sản phẩm cuối khóa "độc bản", được thiết kế theo đam mê riêng.</p>
+                    </div>
+                </div>
+                <div class="usp-item usp-4">
+                    <i class="fa-solid fa-robot"></i>
+                    <div>
+                        <strong>Cộng Tác Cùng AI</strong>
+                        <p>Gợi mở đam mê và định hướng nghiên cứu khoa học cùng AI.</p>
+                    </div>
+                </div>
+            </div>
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: flex-start;">
                 <a href="#dang-ky" class="btn btn-secondary"><i class="fa-solid fa-rocket"></i> Đăng Ký Ngay</a>
                 <a href="#ve-bobby" class="btn" style="background: white; border: 2px solid #E2E8F0;"><i class="fa-solid fa-play"></i> Tìm hiểu thêm</a>
@@ -777,15 +877,15 @@
     <section id="ve-bobby" style="background: white;">
         <div class="section-header">
             <h2>Chấn Phong Là Ai?</h2>
-            <p>Hành trình từ một cậu bé nhút nhát đến bục giảng quốc tế.</p>
+            <p>Hành trình từ một cậu bé nhút nhát đến bục nhận giải quốc tế.</p>
         </div>
         
         <div style="display: flex; flex-wrap: wrap; gap: 4rem; max-width: 1000px; margin: 0 auto; align-items: center;">
             <div style="flex: 1; min-width: 300px;">
                 <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--primary);">Từ cậu bé nhút nhát đến Champion Quốc tế</h3>
                 <p style="margin-bottom: 1.2rem; font-size: 1.1rem;">Năm 6 tuổi, Chấn Phong là một cậu bé cực kỳ nhút nhát. Chính lập trình đã thay đổi điều đó — từng dòng lệnh, từng dự án nhỏ giúp em dần tìm thấy sự tự tin mà em tưởng mình không có.</p>
-                <p style="margin-bottom: 1.2rem; font-size: 1.1rem;">Đến năm 10 tuổi, cậu bé năm nào sợ nói chuyện với người lạ đã tự mình đứng lớp dạy 50+ bạn nhỏ học lập trình qua Google Meet.</p>
-                <p style="font-size: 1.1rem; font-weight: 700;">Ở tuổi 14 — với cúp Vô địch Olympic Tin học Quốc tế tại Singapore và 2 giải Nghiên cứu Khoa học — điều Chấn Phong muốn nhất vẫn là: giúp thêm nhiều bạn nhỏ tìm thấy "cú click" đó.</p>
+                <p style="margin-bottom: 1.2rem; font-size: 1.1rem;">Đến năm 10 tuổi, cậu bé năm nào sợ nói chuyện với người lạ đã tự mình đứng lớp chia sẻ cho nhiều em nhỏ chưa từng tiếp xúc lập trình.</p>
+                <p style="font-size: 1.1rem; font-weight: 700;">Ở tuổi 14 — với cúp Vô địch Olympic Tin học Quốc tế tại Singapore và 2 giải Nghiên cứu Khoa học — Chấn Phong mong muốn chia sẻ không chỉ là kiến thức, kinh nghiệm mà còn là câu chuyện và đam mê khám phá lập trình và khoa học.</p>
             </div>
             <div style="flex: 1; min-width: 300px; background: var(--light); padding: 2rem; border-radius: var(--radius); border-left: 5px solid var(--secondary);">
                 <h4 style="margin-bottom: 1rem;">🏆 Thành tích nổi bật</h4>
@@ -801,7 +901,7 @@
     <section id="chuong-trinh">
         <div class="section-header">
             <h2>Lộ Trình 6 Tuần Cùng Scratch</h2>
-            <p>Khóa học gồm 2 buổi chính (2 giờ/buổi) và 1 buổi sửa bài/tuần (1 giờ). Tổng cộng 30 giờ thực hành.</p>
+            <p>Khóa học gồm 2 buổi chính (2 giờ/buổi) + buổi sửa bài và mở rộng mỗi tuần. Tổng cộng 36 giờ lý thuyết và thực hành.</p>
         </div>
 
         <div class="timeline">
@@ -928,7 +1028,7 @@
                 <div class="price">1.500k <span>/ khóa</span></div>
                 <p style="margin-bottom: 2rem; color: #E0E7FF;">Tiết kiệm hơn, cam kết đầu ra trọn vẹn nhất.</p>
                 <ul class="features">
-                    <li><i class="fa-solid fa-check-circle"></i> 30 giờ thực hành (5h/tuần)</li>
+                    <li><i class="fa-solid fa-check-circle"></i> 36 giờ thực hành (6h/tuần)</li>
                     <li><i class="fa-solid fa-check-circle"></i> Nhóm siêu nhỏ 5–6 học viên</li>
                     <li><i class="fa-solid fa-check-circle"></i> Báo cáo tiến độ sau mỗi buổi</li>
                     <li><i class="fa-solid fa-check-circle"></i> Chứng chỉ tốt nghiệp</li>
@@ -942,7 +1042,7 @@
                 <div class="price">300k <span>/ tuần</span></div>
                 <p style="margin-bottom: 2rem; color: #64748B;">Linh hoạt thời gian, phù hợp lịch hè bận rộn.</p>
                 <ul class="features">
-                    <li><i class="fa-solid fa-check"></i> 5 giờ thực hành / tuần</li>
+                    <li><i class="fa-solid fa-check"></i> 6 giờ thực hành / tuần</li>
                     <li><i class="fa-solid fa-check"></i> Dừng bất cứ lúc nào</li>
                     <li><i class="fa-solid fa-check"></i> Báo cáo tiến độ học tập</li>
                     <li><i class="fa-solid fa-check"></i> Đầy đủ quyền lợi học tập</li>
@@ -952,45 +1052,7 @@
         </div>
     </section>
 
-    <section class="testimonials">
-        <div class="section-header">
-            <h2>Phụ Huynh Nói Gì Về Chấn Phong?</h2>
-            <p>Hàng chục feedback dễ thương từ các mùa Hè trước.</p>
-        </div>
 
-        <div class="testi-grid">
-            <div class="testi-card">
-                <p>"Bobby đang mún kiếm việc làm thêm bằng cách dạy lập trình scratch từ vỡ lòng cho các em từ 6 đến 7 tuổi. Bobby giỏi quá, chúc startup sớm thành unicorn nhé!"</p>
-                <div class="user">
-                    <div class="user-img">T</div>
-                    <div>
-                        <div style="font-weight: 700;">Cô Tống Nguyễn</div>
-                        <div style="font-size: 0.9rem; color: #64748B;">Phụ huynh mùa Hè 2021</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card">
-                <p>"Em Henry nhà cô muốn học cậu Bobby ơi! Ba mẹ Bobby rất giỏi luôn khi tạo điều kiện cho em được tự đứng lớp sớm như thế này."</p>
-                <div class="user">
-                    <div class="user-img" style="background: var(--gradient-2);">K</div>
-                    <div>
-                        <div style="font-weight: 700;">Cô Kim Chi</div>
-                        <div style="font-size: 0.9rem; color: #64748B;">Phụ huynh khóa 2022</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card">
-                <p>"Mới học 1 tuần mà tối nào cu cậu cũng lôi máy ra ngồi ghép khối lệnh khoe mẹ. Lớp của anh Bobby vui vẻ và thân thiện lắm."</p>
-                <div class="user">
-                    <div class="user-img" style="background: var(--accent);">H</div>
-                    <div>
-                        <div style="font-weight: 700;">Mẹ bé Hải</div>
-                        <div style="font-size: 0.9rem; color: #64748B;">Lớp Scratch Cơ Bản</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <footer>
         <div style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;"><i class="fa-solid fa-code"></i> Passionate Developer 2026</div>
