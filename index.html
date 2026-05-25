@@ -345,26 +345,28 @@
 
         .price-card {
             background: var(--white);
-            padding: 3rem 2rem;
+            padding: 2.5rem 1.5rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             text-align: center;
             position: relative;
             transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .price-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
         }
 
         .price-card.popular {
             background: var(--gradient-1);
             color: white;
-            transform: scale(1.05);
+            border: 2px solid var(--secondary);
         }
 
         .price-card.popular:hover {
-            transform: scale(1.05) translateY(-10px);
+            transform: translateY(-5px);
         }
 
         .popular-badge {
@@ -401,8 +403,9 @@
 
         .features {
             list-style: none;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             text-align: left;
+            flex-grow: 1;
         }
 
         .features li {
@@ -808,7 +811,7 @@
         </div>
         <div>
             <a href="#chuong-trinh" class="btn" style="color: var(--dark);">Chương trình</a>
-            <a href="#dang-ky" class="btn btn-primary">Đăng ký học thử MIỄN PHÍ</a>
+            <a href="#dang-ky" class="btn btn-primary">Đăng Ký Ngay</a>
         </div>
     </nav>
 
@@ -1022,7 +1025,7 @@
         </div>
     </section>
 
-    <section id="dang-ky" style="background: var(--light);">
+    <section id="dang-ky" style="background: var(--light); scroll-margin-top: 80px;">
         <div class="section-header">
             <h2>Đầu Tư Cho Tương Lai Của Bé</h2>
             <p>Học phí cực kỳ tối ưu so với các trung tâm lớn, nhưng mang lại trải nghiệm cá nhân hóa tuyệt vời.</p>
@@ -1038,7 +1041,7 @@
                     <li><i class="fa-solid fa-check"></i> 1 mini-game đơn giản</li>
                     <li><i class="fa-solid fa-check"></i> Đánh giá mức độ phù hợp</li>
                 </ul>
-                <a href="quiz.html" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); justify-content: center;"><i class="fa-solid fa-clipboard-question"></i> Đánh Giá Ngay</a>
+                <a href="quiz.html" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); justify-content: center; margin-top: auto;"><i class="fa-solid fa-clipboard-question"></i> Kiểm tra sự phù hợp</a>
             </div>
 
             <div class="price-card popular">
@@ -1051,9 +1054,8 @@
                     <li><i class="fa-solid fa-check-circle"></i> Nhóm siêu nhỏ 5–6 học viên</li>
                     <li><i class="fa-solid fa-check-circle"></i> Báo cáo tiến độ sau mỗi buổi</li>
                     <li><i class="fa-solid fa-check-circle"></i> Chứng chỉ tốt nghiệp</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Buổi phụ đạo cuối tuần</li>
                 </ul>
-                <button onclick="openRegisterModal('Gói Trọn Bộ 6 Tuần (1.500k)')" class="btn btn-secondary" style="width: 100%; background: var(--white); color: var(--primary); cursor: pointer; border: none;">Đăng Ký Khóa Học</button>
+                <button onclick="openRegisterModal('Gói Trọn Bộ 6 Tuần (1.500k)')" class="btn btn-secondary" style="width: 100%; background: var(--white); color: var(--primary); cursor: pointer; border: none; margin-top: auto;">Đăng Ký Khóa Học</button>
             </div>
 
             <div class="price-card">
@@ -1066,7 +1068,7 @@
                     <li><i class="fa-solid fa-check"></i> Báo cáo tiến độ học tập</li>
                     <li><i class="fa-solid fa-check"></i> Đầy đủ quyền lợi học tập</li>
                 </ul>
-                <button onclick="openRegisterModal('Gói Đóng Theo Tuần (300k)')" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: transparent; cursor: pointer;">Đăng Ký Theo Tuần</button>
+                <button onclick="openRegisterModal('Gói Đóng Theo Tuần (300k)')" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: transparent; cursor: pointer; margin-top: auto;">Đăng Ký Theo Tuần</button>
             </div>
         </div>
     </section>
