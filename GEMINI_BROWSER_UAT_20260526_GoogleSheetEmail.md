@@ -34,7 +34,7 @@ SHEET_ID: '1vgcxRwvdz974cFeDsIWW8I49ZPI0tDheztPQuPEIk7k/edit?gid=1055917030#gid=
 The currently expected Apps Script Web App URL is:
 
 ```text
-https://script.google.com/macros/s/AKfycbygIDUeAadahE7EXMf6GN1UUblrauDvuKoQ4NIP7HfMut-9NtWk7gr-SPyQtrIteKjntg/exec
+https://script.google.com/macros/s/AKfycbyiMqMch7GfXa2P-VKG0wbvnClCIpFwpDl4KcefRTmY0r1lZrAdRMZndjuzcPoP6Kzdow/exec
 ```
 
 Open that URL first. Expected response:
