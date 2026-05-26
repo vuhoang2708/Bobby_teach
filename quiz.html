@@ -1402,7 +1402,7 @@
             document.getElementById('resultDesc').innerHTML = desc;
 
             // Update registration button to perform copy and open Zalo
-            const levelText = title.replace("—", "").replace("!", "");
+            const levelText = title.replace("—", " ").replace("!", "").replace(/\s+/g, " ").trim();
             const submissionId = makeSubmissionId('quiz');
             const msgReport = `Báo cáo đánh giá năng lực Scratch:
 - Học viên: ${studentName}
