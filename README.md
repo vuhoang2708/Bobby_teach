@@ -138,7 +138,7 @@ Trang đánh giá tương tác 14 câu hỏi giúp anh Chấn Phong hiểu rõ h
 - **Giải thích tức thì:** Sau khi chọn đáp án, hệ thống hiển thị ngay giải thích từ anh Chấn Phong
 - **Đáp án sạch:** Không có gợi ý trong câu trả lời — học sinh phải tự suy nghĩ
 - **Kết quả cá nhân hóa:** Đề xuất đề tài tốt nghiệp dựa trên sở thích (Game hành động / Giải đố / Hoạt hình / Âm nhạc)
-- **3 mức kết quả:** Level 0 (< 50đ), Level 1 (50–79đ), Level 1-2 (≥ 80đ) — khuyến khích tham gia ở mọi mức
+- **3 mức kết quả:** Mức A (< 50đ: cần hỗ trợ thêm), Mức B (50–79đ: sẵn sàng học Scratch căn bản), Mức C (≥ 80đ: sẵn sàng + có thể nhận thử thách nâng cao) — khuyến khích tham gia ở mọi mức
 - **Câu hỏi sở thích có nút "Bỏ qua"** kèm popup cảnh báo về tầm quan trọng của thông tin
 - **Lưu kết quả vào localStorage** trên trình duyệt làm bài
 - **Gửi báo cáo qua Zalo:** Copy kết quả vào clipboard + hiển thị Success Modal có QR/link nhóm Zalo sau khi hoàn thành

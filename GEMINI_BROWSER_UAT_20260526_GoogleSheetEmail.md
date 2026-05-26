@@ -140,7 +140,7 @@ Kết quả bài test đã được ghi nhận vào Google Sheet và email tóm 
 10. Confirm quiz email explains:
    - level is calculated from the first 11 scored logic questions
    - maximum score is 110
-   - thresholds are Level 0 `<50`, Level 1 `50-79`, Level 1-2 `>=80`
+   - thresholds are Mức A `<50`, Mức B `50-79`, Mức C `>=80`
    - CTA is to join the Zalo group for consultation, trial-class scheduling, and class updates
 11. Verify Google Sheet tab `QuizResults` has a row containing `GEMINI_UAT Quiz Student`.
 12. Verify email received:

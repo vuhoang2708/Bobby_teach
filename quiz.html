@@ -1362,15 +1362,15 @@
             let desc = "";
 
             if (totalScore >= 80) {
-                title = `Lập Trình Viên Tiềm Năng — Level 1-2!`;
+                title = `Mức C: Sẵn sàng + có thể nhận thử thách nâng cao`;
                 desc = `<strong>Chúc mừng ${studentName}!</strong> Em có tư duy logic, khả năng suy luận hình học và thao tác máy tính cực kỳ nhạy bén. Em sẽ nắm bắt các bài học lập trình Scratch rất nhanh.<br><br>
                 💡 <strong>Đặc điểm học tập:</strong> Các khái niệm vòng lặp kép hay biến số toán học không làm khó được em. Anh Chấn Phong sẽ giao thêm các nhiệm vụ bổ sung hoặc tăng cấp thử thách ở các buổi thực hành để em phát huy tối đa thực lực.`;
             } else if (totalScore >= 50) {
-                title = `Học Viên Sẵn Sàng — Level 1!`;
+                title = `Mức B: Sẵn sàng học Scratch căn bản`;
                 desc = `<strong>Tuyệt vời ${studentName}!</strong> Tư duy hình học và logic của em rất tốt. Em có đầy đủ tố chất nền tảng để bắt đầu học lập trình Scratch.<br><br>
                 💡 <strong>Đặc điểm học tập:</strong> Em nắm tốt các logic tuần tự, tuy nhiên kỹ năng phím tắt hay trục tọa độ âm lớn có thể cần rèn luyện thêm một chút ở tuần đầu tiên. Anh Chấn Phong sẽ hướng dẫn chi tiết cách kéo thả khối lệnh và tối ưu nhóm lệnh di chuyển để em bắt kịp nhanh chóng nhất.`;
             } else {
-                title = `Học Viên Cần Nỗ Lực & Hỗ Trợ Sát Sao — Level 0!`;
+                title = `Mức A: Cần hỗ trợ thêm`;
                 desc = `<strong>Chào ${studentName}!</strong> Tuy kết quả các câu hỏi logic toán học chưa đạt mức tối đa, nhưng đây hoàn toàn là điều bình thường vì các khái niệm góc quay và hệ tọa độ X, Y có thể em chưa được làm quen nhiều ở trường học.<br><br>
                 💪 <strong>Khuyên dùng từ anh Chấn Phong:</strong> Lập trình là một hành trình rèn luyện. Em hoàn toàn có thể theo kịp khóa học và tự tay tạo ra sản phẩm game của riêng mình nếu có sự <strong>nỗ lực, tập trung cao độ</strong> cùng sự <strong>đồng hành sát sao 1-1</strong> từ anh Chấn Phong xuyên suốt khóa học để hỗ trợ sửa lỗi (debug) ngay tại lớp.`;
             }
@@ -1402,7 +1402,7 @@
             document.getElementById('resultDesc').innerHTML = desc;
 
             // Update registration button to perform copy and open Zalo
-            const levelText = title.replace("—", " ").replace("!", "").replace(/\s+/g, " ").trim();
+            const levelText = title.trim();
             const submissionId = makeSubmissionId('quiz');
             const msgReport = `Báo cáo đánh giá năng lực Scratch:
 - Học viên: ${studentName}
