@@ -204,7 +204,7 @@
         .stats {
             display: flex;
             gap: 2rem;
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
         .stat-item {
@@ -226,12 +226,12 @@
 
         /* Section styles */
         section {
-            padding: 5rem 5%;
+            padding: 3rem 5%;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 2.2rem;
         }
 
         .section-header h2 {
@@ -269,7 +269,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 4rem;
+            margin-bottom: 2.5rem;
             position: relative;
             width: 100%;
         }
@@ -390,6 +390,20 @@
             font-weight: 800;
             font-size: 0.9rem;
             box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .price-card .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 52px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 50px;
+            box-sizing: border-box;
+            margin-top: auto;
+            transition: all 0.3s ease;
         }
 
         .price {
@@ -763,7 +777,7 @@
 
         /* Hero USPs */
         .hero-usp {
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.2rem;
@@ -803,15 +817,18 @@
         }
         .usp-1 { animation-delay: 0.1s; border-top: 3px solid var(--primary); }
         .usp-2 { animation-delay: 0.2s; border-top: 3px solid var(--secondary); }
-        .usp-3 { animation-delay: 0.3s; border-top: 3px solid var(--accent); }
-        .usp-4 { animation-delay: 0.4s; border-top: 3px solid #EC4899; }
+        .usp-5 { animation-delay: 0.3s; border-top: 3px solid #10B981; }
+        .usp-3 { animation-delay: 0.4s; border-top: 3px solid #06B6D4; }
+        .usp-4 { animation-delay: 0.5s; border-top: 3px solid #EC4899; }
+        .usp-5 { grid-column: span 2; }
         .usp-item i {
             font-size: 1.5rem;
             margin-top: 0.2rem;
         }
         .usp-1 i { color: var(--primary); }
         .usp-2 i { color: var(--secondary); }
-        .usp-3 i { color: var(--accent); }
+        .usp-5 i { color: #10B981; }
+        .usp-3 i { color: #06B6D4; }
         .usp-4 i { color: #EC4899; }
         .usp-item strong {
             display: block;
@@ -830,6 +847,7 @@
         }
         @media (max-width: 600px) {
             .hero-usp { grid-template-columns: 1fr; }
+            .usp-5 { grid-column: auto; }
         }
 
         /* Scratch Intro Section */
@@ -958,6 +976,13 @@
                     <div>
                         <strong>Khởi Đầu Dễ Dàng (8-12 Tuổi)</strong>
                         <p>Chỉ cần một chút kiến thức nền, sự nỗ lực và tinh thần ham học.</p>
+                    </div>
+                </div>
+                <div class="usp-item usp-5">
+                    <i class="fa-solid fa-face-smile"></i>
+                    <div>
+                        <strong>Lớp học vui nhộn</strong>
+                        <p>Người hướng dẫn nhiệt tình. Nhiều trò chơi lý thú với những phần quà hấp dẫn.</p>
                     </div>
                 </div>
                 <div class="usp-item usp-3">
@@ -1217,12 +1242,12 @@
                     <li><i class="fa-solid fa-check"></i> 1 mini-game đơn giản</li>
                     <li><i class="fa-solid fa-check"></i> Đánh giá mức độ phù hợp</li>
                 </ul>
-                <a href="quiz.html" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); justify-content: center; margin-top: auto;"><i class="fa-solid fa-clipboard-question"></i> Kiểm tra sự phù hợp</a>
+                <a href="quiz.html" class="btn" style="border: 2px solid var(--primary); color: var(--primary); background: transparent;"><i class="fa-solid fa-clipboard-question" style="margin-right: 0.5rem;"></i> Kiểm tra sự phù hợp</a>
             </div>
 
             <div class="price-card popular">
                 <div class="popular-badge">Khuyên Dùng</div>
-                <h3>Gói Trọn Bộ 6 Tuần</h3>
+                <h3>Gói Trọn Vẹn chương trình</h3>
                 <div class="price">1.500k <span>/ khóa</span></div>
                 <p style="margin-bottom: 2rem; color: #E0E7FF;">Tiết kiệm hơn, cam kết đầu ra trọn vẹn nhất.</p>
                 <ul class="features">
@@ -1231,11 +1256,11 @@
                     <li><i class="fa-solid fa-check-circle"></i> Báo cáo tiến độ sau mỗi buổi</li>
                     <li><i class="fa-solid fa-check-circle"></i> Chứng chỉ tốt nghiệp</li>
                 </ul>
-                <button onclick="openRegisterModal('Gói Trọn Bộ 6 Tuần (1.500k)')" class="btn btn-secondary" style="width: 100%; background: var(--white); color: var(--primary); cursor: pointer; border: none; margin-top: auto;">Đăng Ký Khóa Học</button>
+                <button onclick="openRegisterModal('Gói Trọn Vẹn chương trình (1.500k)')" class="btn" style="background: var(--white); color: var(--primary); border: 2px solid var(--white); font-size: 1.1rem; font-weight: 800; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4); cursor: pointer;"><i class="fa-solid fa-star" style="color: var(--secondary); margin-right: 0.5rem;"></i> Đăng Ký Khóa Học</button>
             </div>
 
             <div class="price-card">
-                <h3>Gói Đóng Theo Tuần</h3>
+                <h3>Gói Theo Tuần</h3>
                 <div class="price">300k <span>/ tuần</span></div>
                 <p style="margin-bottom: 2rem; color: #64748B;">Linh hoạt thời gian, phù hợp lịch hè bận rộn.</p>
                 <ul class="features">
@@ -1244,7 +1269,7 @@
                     <li><i class="fa-solid fa-check"></i> Báo cáo tiến độ học tập</li>
                     <li><i class="fa-solid fa-check"></i> Đầy đủ quyền lợi học tập</li>
                 </ul>
-                <button onclick="openRegisterModal('Gói Đóng Theo Tuần (300k)')" class="btn" style="width: 100%; border: 2px solid var(--primary); color: var(--primary); background: transparent; cursor: pointer; margin-top: auto;">Đăng Ký Theo Tuần</button>
+                <button onclick="openRegisterModal('Gói Theo Tuần (300k)')" class="btn" style="border: 2px solid var(--primary); color: var(--primary); background: transparent; cursor: pointer;"><i class="fa-solid fa-calendar-days" style="margin-right: 0.5rem;"></i> Đăng Ký Theo Tuần</button>
             </div>
         </div>
     </section>
@@ -1304,8 +1329,8 @@
                     <div class="form-group">
                         <label for="coursePackage"><i class="fa-solid fa-box"></i> Gói đăng ký lựa chọn:</label>
                         <select id="coursePackage" required>
-                            <option value="Gói Trọn Bộ 6 Tuần (1.500k)">Gói Trọn Bộ 6 Tuần (1.500k)</option>
-                            <option value="Gói Đóng Theo Tuần (300k)">Gói Đóng Theo Tuần (300k)</option>
+                            <option value="Gói Trọn Vẹn chương trình (1.500k)">Gói Trọn Vẹn chương trình (1.500k)</option>
+                            <option value="Gói Theo Tuần (300k)">Gói Theo Tuần (300k)</option>
                             <option value="Buổi Trải Nghiệm Học Thử (0đ)">Buổi Trải Nghiệm Học Thử (0đ)</option>
                         </select>
                     </div>

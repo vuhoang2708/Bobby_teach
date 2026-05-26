@@ -95,8 +95,8 @@ Bobby-Teaching/
 | Gói | Giá | Nội dung |
 |-----|-----|---------|
 | **Buổi Trải Nghiệm** | 0đ | 60 phút học thử nhóm + 1 mini-game đơn giản |
-| **Gói Đóng Theo Tuần** | 300.000đ/tuần | 6h thực hành, linh hoạt dừng bất cứ lúc nào |
-| **Gói Trọn Bộ 6 Tuần** | 1.500.000đ/khóa | 36h thực hành, nhóm siêu nhỏ, có chứng chỉ tốt nghiệp |
+| **Gói Theo Tuần** | 300.000đ/tuần | 6h thực hành, linh hoạt dừng bất cứ lúc nào |
+| **Gói Trọn Vẹn chương trình** | 1.500.000đ/khóa | 36h thực hành, nhóm siêu nhỏ, có chứng chỉ tốt nghiệp |
 
 > *Mức giá cạnh tranh so với các trung tâm (thường > 4.000.000đ/khoá)*
 
@@ -299,6 +299,7 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
 - **2026-05-26:** Tích hợp frontend với Apps Script Web App cho form đăng ký và quiz; còn cần UAT live để xác minh Google Sheet + email thực nhận.
 - **2026-05-26:** Real backend test pass với Apps Script redeploy URL: registration và quiz đều trả `ok: true`; tạo kịch bản Gemini browser UAT để kiểm tra live Vercel/CORS/inbox.
 - **2026-05-26:** Cập nhật UX hậu-submit: khi Google Sheet/email đã thành công, phụ huynh chỉ cần tham gia nhóm Zalo; nội dung copy/textarea chỉ còn là dự phòng/đối chiếu.
+- **2026-05-26:** Cải tiến UI/UX khoảng trắng, đồng bộ chiều cao và làm nổi bật nút đăng ký bảng giá, thêm block USP thứ 5 (Lớp học vui nhộn) và đổi tên các gói học thành "Gói Trọn Vẹn chương trình" và "Gói Theo Tuần".
 
 ---
  
