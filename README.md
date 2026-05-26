@@ -67,7 +67,7 @@ Bobby-Teaching/
 **Độ tuổi:** 8–12 tuổi | **Sĩ số:** Tối đa 5–6 học viên/lớp
 
 ### Lịch học chi tiết:
-- **Thời gian:** 09:30 - 11:30 (Giải lao 10 phút giữa giờ)
+- **Thời gian:** 09:30 - 11:30 hoặc 15:00 - 17:00 (Giải lao 10 phút giữa giờ)
 - **Ngày học:** Thứ Hai - Thứ Tư - Thứ Sáu
 - **Ngày khai giảng (Học thử):** 01/06/2026 (Quốc Tế Thiếu Nhi)
 - **Ngày bế giảng (Graduation Day):** Thứ Sáu, 10/07/2026
@@ -164,7 +164,7 @@ Khi phụ huynh click nút **"Đăng Ký Khóa Học"** hoặc **"Đăng Ký The
 | Họ tên Học sinh | Text, bắt buộc |
 | Năm sinh Học sinh | Dropdown 2014–2018 (8–12 tuổi) |
 | Gói đăng ký | Auto-chọn theo nút đã click, có thể đổi |
-| Ca học mong muốn | Lịch cố định: Thứ 2-4-6 (09:30 - 11:30) / Linh hoạt |
+| Ca học mong muốn | Ca Sáng (09:30 - 11:30) / Ca Chiều (15:00 - 17:00) / Linh hoạt |
 
 ### Luồng hiện tại sau khi Submit:
 ```
