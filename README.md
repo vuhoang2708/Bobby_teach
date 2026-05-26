@@ -7,7 +7,7 @@
 
 ## 📌 Giới Thiệu
 
-Chấn Phong từng tổ chức lớp học Scratch online vào **2021** và **2022**, thu hút hơn 50 học viên.  
+Chấn Phong từng tổ chức lớp học Scratch online vào **2021** và **2022**, nhận được nhiều feedback tích cực từ học viên và phụ huynh.
 Hè **2026**, chương trình tái khởi động với quy mô chuyên nghiệp hơn — có landing page, AI tools hỗ trợ soạn bài và recap tự động.
 
 | Năm | Tuổi Chấn Phong | Học phí | Thời lượng | Công cụ |
@@ -141,7 +141,7 @@ Trang đánh giá tương tác 14 câu hỏi giúp anh Chấn Phong hiểu rõ h
 - **3 mức kết quả:** Level 0 (< 50đ), Level 1 (50–79đ), Level 1-2 (≥ 80đ) — khuyến khích tham gia ở mọi mức
 - **Câu hỏi sở thích có nút "Bỏ qua"** kèm popup cảnh báo về tầm quan trọng của thông tin
 - **Lưu kết quả vào localStorage** trên trình duyệt làm bài
-- **Gửi báo cáo qua Zalo:** Copy kết quả vào clipboard + mở chat Zalo Chấn Phong sau khi hoàn thành
+- **Gửi báo cáo qua Zalo:** Copy kết quả vào clipboard + hiển thị Success Modal có QR/link nhóm Zalo sau khi hoàn thành
 
 ### Admin Quiz (`quiz.html?admin=true`):
 - Xem toàn bộ kết quả test của học viên đã làm trên trình duyệt này
@@ -160,12 +160,13 @@ Khi phụ huynh click nút **"Đăng Ký Khóa Học"** hoặc **"Đăng Ký The
 |--------|----------|
 | Họ tên Phụ huynh | Text, bắt buộc |
 | Số điện thoại Zalo | Tel, bắt buộc |
+| Email phụ huynh | Email, bắt buộc trong luồng mục tiêu để gửi xác nhận, báo cáo tuần và tài liệu sau buổi học |
 | Họ tên Học sinh | Text, bắt buộc |
 | Năm sinh Học sinh | Dropdown 2014–2018 (8–12 tuổi) |
 | Gói đăng ký | Auto-chọn theo nút đã click, có thể đổi |
 | Ca học mong muốn | Lịch cố định: Thứ 2-4-6 (09:30 - 11:30) / Linh hoạt |
 
-### Luồng xử lý sau khi Submit:
+### Luồng hiện tại sau khi Submit:
 ```
 Phụ huynh điền form → Submit
   → Lưu vào localStorage
@@ -174,14 +175,26 @@ Phụ huynh điền form → Submit
   → Phụ huynh bấm tham gia nhóm và dán (Ctrl+V) tin nhắn đã copy để gửi ✅
 ```
 
+### Luồng vận hành mục tiêu cần triển khai:
+```
+Phụ huynh điền form có Email phụ huynh → Submit
+  → Ghi dữ liệu vào Google Sheet trung tâm
+  → Gửi email báo lead mới cho BTC/anh Chấn Phong
+  → Gửi email xác nhận cho phụ huynh
+  → Hiển thị Success Modal Zalo Group để phụ huynh tham gia cộng đồng lớp
+  → Giữ copy/textarea và localStorage như fallback nếu mạng/API lỗi
+```
+
+Google Sheet + email sẽ là nguồn dữ liệu chính thức (source of truth) cho đăng ký. Zalo Group vẫn cần cho trao đổi nhanh và cộng đồng lớp học, nhưng không nên là kênh duy nhất để ghi nhận lead vì phụ huynh có thể quên dán tin nhắn sau khi submit.
+
 ### Admin Đăng Ký (`index.html?admin=true`):
 - Xem danh sách toàn bộ phụ huynh & học sinh đã submit trên trình duyệt này
-- Hiển thị: Tên PH, SĐT Zalo, Tên HS, Năm sinh, Gói học, Lịch học, Thời gian
+- Hiển thị hiện tại: Tên PH, SĐT Zalo, Tên HS, Năm sinh, Gói học, Lịch học, Thời gian
 - Xóa leads không hợp lệ
 - Xuất file Excel/CSV (UTF-8 BOM, tương thích Excel Windows)
 - Truy cập ẩn: Click 5 lần liên tiếp vào Logo ở góc trên, hoặc vào URL `/?admin=true`
 
-> **Lưu ý:** Dữ liệu `localStorage` chỉ hiển thị trên thiết bị phụ huynh đã submit. Thông tin được gửi tới quản trị viên thông qua nhóm Zalo sau khi phụ huynh dán dữ liệu.
+> **Lưu ý:** Dữ liệu `localStorage` chỉ hiển thị trên thiết bị/trình duyệt đã submit, nên không đủ làm hệ thống quản trị đăng ký chính thức. Luồng Google Sheet + email là nâng cấp bắt buộc trước khi vận hành thật.
 
 ---
 
@@ -233,6 +246,14 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
   - [x] Thu thập: Họ tên PH, SĐT Zalo, Tên HS, Năm sinh, Gói học, Ca học
   - [x] Sao chép báo cáo & hiển thị Success Modal Zalo Group sau khi submit
   - [x] Hệ thống Admin xem & xuất danh sách đăng ký (`/?admin=true`)
+- [ ] **Phase 3.5 — Đăng Ký Chính Thức Qua Google Sheet + Email**
+  - [x] Thêm trường Email phụ huynh vào form đăng ký và quiz
+  - [x] Tích hợp Apps Script Web App endpoint vào `index.html` và `quiz.html`
+  - [x] Xác minh backend: đăng ký và kết quả quiz trả `ok: true` từ Apps Script Web App
+  - [x] Xác minh backend: Apps Script báo đã gửi email cho BTC và phụ huynh
+  - [ ] Xác minh browser live: submit từ Vercel không bị CORS chặn
+  - [ ] Xác minh inbox: BTC/phụ huynh nhận email thực tế
+  - [ ] Giữ Zalo Group Success Modal như bước tham gia cộng đồng sau khi submit thành công
 - [ ] **Phase 4 — Vận Hành**
   - [ ] Chạy buổi trải nghiệm học thử đầu tiên
   - [ ] Test workflow ShareX → Gemini Recap → Gửi Zalo phụ huynh
@@ -249,6 +270,7 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
 | `Implementation Plan/implementation_plan_20260524_EntranceQuizAndAgeRevamp.md` | Kế hoạch quiz & cập nhật tuổi |
 | `Implementation Plan/implementation_plan_20260524_QuizExplanationsAndAdminPanel.md` | Kế hoạch giải thích đáp án & admin quiz |
 | `Implementation Plan/implementation_plan_20260524_RegistrationFormAndDataCollection.md` | Kế hoạch form đăng ký |
+| `Implementation Plan/implementation_plan_20260526_GoogleSheetEmailRegistration.md` | Kế hoạch nâng cấp đăng ký qua Google Sheet + email |
 
 ---
 
@@ -273,6 +295,9 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
 - **2026-05-25:** Bổ sung phần giới thiệu chi tiết về Scratch (MIT) vào `README.md` và tinh chỉnh bố cục bảng giá cân đối (Equal Heights).
  
 - **2026-05-26:** Tích hợp luồng Zalo Group Success Modal (QR code + copy fallback) cho cả đăng ký học và báo cáo kết quả quiz, thay thế cho liên kết chat Zalo cá nhân. Cập nhật tài liệu kỹ thuật trong README.
+- **2026-05-26:** Bổ sung phương án vận hành đăng ký chính thức: yêu cầu Email phụ huynh, ghi dữ liệu vào Google Sheet, gửi email cho BTC và phụ huynh; Zalo Group chuyển thành kênh cộng đồng/fallback sau submit.
+- **2026-05-26:** Tích hợp frontend với Apps Script Web App cho form đăng ký và quiz; còn cần UAT live để xác minh Google Sheet + email thực nhận.
+- **2026-05-26:** Real backend test pass với Apps Script redeploy URL: registration và quiz đều trả `ok: true`; tạo kịch bản Gemini browser UAT để kiểm tra live Vercel/CORS/inbox.
 
 ---
  

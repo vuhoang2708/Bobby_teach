@@ -1245,6 +1245,12 @@
                         <label for="parentPhone"><i class="fa-solid fa-phone"></i> Số điện thoại Zalo liên hệ:</label>
                         <input type="tel" id="parentPhone" placeholder="Ví dụ: 0987654321" required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="parentEmail"><i class="fa-regular fa-envelope"></i> Email phụ huynh:</label>
+                        <input type="email" id="parentEmail" placeholder="Ví dụ: phuhuynh@email.com" required>
+                        <small style="display:block; margin-top:0.35rem; color:#64748B; font-size:0.78rem;">Dùng để gửi xác nhận đăng ký, báo cáo học tập hằng tuần và tài liệu sau buổi học.</small>
+                    </div>
                     
                     <div class="form-group">
                         <label for="studentName"><i class="fa-solid fa-graduation-cap"></i> Họ tên Học sinh:</label>
@@ -1294,7 +1300,7 @@
             <button class="modal-close-btn" onclick="closeSuccessModal()"><i class="fa-solid fa-xmark"></i></button>
             <div style="font-size: 3.5rem; color: #10B981; margin-bottom: 1rem;"><i class="fa-solid fa-circle-check"></i></div>
             <div class="form-title" style="color: #10B981;">Đăng Ký Thành Công!</div>
-            <div class="form-subtitle" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+            <div class="form-subtitle" id="successModalMessage" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
                 Thông tin đăng ký đã được sao chép vào bộ nhớ tạm (Clipboard). Phụ huynh vui lòng gửi thông tin vào nhóm Zalo để hoàn tất.
             </div>
 
@@ -1344,10 +1350,12 @@
                     <tr>
                         <th>Phụ Huynh</th>
                         <th>SĐT Zalo</th>
+                        <th>Email</th>
                         <th>Học Viên</th>
                         <th>Năm Sinh</th>
                         <th>Gói Học</th>
                         <th>Lịch Học</th>
+                        <th>Trạng Thái</th>
                         <th>Thời Gian</th>
                         <th>Hành Động</th>
                     </tr>
@@ -1366,6 +1374,44 @@
     </div>
 
     <script>
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygIDUeAadahE7EXMf6GN1UUblrauDvuKoQ4NIP7HfMut-9NtWk7gr-SPyQtrIteKjntg/exec';
+
+        function makeSubmissionId(prefix) {
+            return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        }
+
+        async function postToRegistrationBackend(payload) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body: new URLSearchParams(payload),
+                    signal: controller.signal
+                });
+                const data = await response.json();
+                if (!data.ok) {
+                    throw new Error(data.error || 'Google Sheet endpoint returned an error.');
+                }
+                return data;
+            } finally {
+                clearTimeout(timeoutId);
+            }
+        }
+
+        function saveRegistrationLocal(registration) {
+            try {
+                let registrations = JSON.parse(localStorage.getItem('courseRegistrations') || '[]');
+                registrations.push(registration);
+                localStorage.setItem('courseRegistrations', JSON.stringify(registrations));
+            } catch (err) {
+                console.error("Local storage save failed:", err);
+            }
+        }
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1414,53 +1460,80 @@
         }
 
         // Submit Registration Form
-        function submitRegistration(e) {
+        async function submitRegistration(e) {
             e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Đang gửi đăng ký... <i class="fa-solid fa-spinner fa-spin"></i>';
+            }
             
             const parentName = document.getElementById('parentName').value.trim();
             const parentPhone = document.getElementById('parentPhone').value.trim();
+            const parentEmail = document.getElementById('parentEmail').value.trim();
             const studentName = document.getElementById('studentName').value.trim();
             const studentBirthYear = document.getElementById('studentBirthYear').value;
             const coursePackage = document.getElementById('coursePackage').value;
             const preferredTime = document.getElementById('preferredTime').value;
+            const submissionId = makeSubmissionId('reg');
 
-            // Save to localStorage
+            const backendPayload = {
+                kind: 'registration',
+                submissionId,
+                parentName,
+                parentPhone,
+                parentEmail,
+                studentName,
+                studentBirthYear,
+                coursePackage,
+                preferredTime
+            };
+
+            let synced = false;
+            let syncError = '';
+
             try {
-                let registrations = JSON.parse(localStorage.getItem('courseRegistrations') || '[]');
-                const newReg = {
-                    parentName: parentName,
-                    parentPhone: parentPhone,
-                    studentName: studentName,
-                    studentBirthYear: studentBirthYear,
-                    coursePackage: coursePackage,
-                    preferredTime: preferredTime,
-                    timestamp: new Date().toLocaleString('vi-VN')
-                };
-                registrations.push(newReg);
-                localStorage.setItem('courseRegistrations', JSON.stringify(registrations));
+                await postToRegistrationBackend(backendPayload);
+                synced = true;
             } catch (err) {
-                console.error("Local storage save failed:", err);
+                syncError = err.message || String(err);
+                console.error("Google Sheet sync failed:", err);
             }
 
-            closeRegisterModal();
+            saveRegistrationLocal({
+                ...backendPayload,
+                synced,
+                syncError,
+                timestamp: new Date().toLocaleString('vi-VN')
+            });
 
             // Formulate message for Zalo
             const msgReport = `Đăng ký khóa học Passionate Developer 2026:
 - Phụ huynh: ${parentName}
 - SĐT Zalo: ${parentPhone}
+- Email phụ huynh: ${parentEmail}
 - Học viên: ${studentName} (Năm sinh: ${studentBirthYear})
 - Gói học: ${coursePackage}
 - Ca học mong muốn: ${preferredTime}`;
 
             // Show success modal & copy report
+            closeRegisterModal();
             document.getElementById('successReportText').value = msgReport;
+            document.getElementById('successModalMessage').innerText = synced
+                ? 'Thông tin đăng ký đã được ghi nhận vào Google Sheet và email xác nhận đã được gửi. Phụ huynh vui lòng tham gia nhóm Zalo lớp học để nhận cập nhật nhanh.'
+                : 'Chưa xác nhận được việc ghi vào Google Sheet/email. Thông tin đã được lưu tạm trên trình duyệt và copy bên dưới; phụ huynh vui lòng gửi vào nhóm Zalo để BTC nhận ngay.';
             document.getElementById('successModal').classList.add('active');
 
             navigator.clipboard.writeText(msgReport).then(() => {
-                showToast("Đã sao chép tin nhắn đăng ký!");
+                showToast(synced ? "Đã ghi nhận đăng ký và sao chép tin nhắn!" : "Đã lưu tạm và sao chép tin nhắn dự phòng!");
             }).catch(err => {
                 console.error("Clipboard write failed:", err);
             });
+
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Gửi Đăng Ký & Nhắn Zalo <i class="fa-solid fa-paper-plane"></i>';
+            }
         }
 
         function closeSuccessModal() {
@@ -1491,7 +1564,7 @@
             tbody.innerHTML = "";
 
             if (registrations.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #94A3B8; padding: 2rem;">Chưa có đơn đăng ký nào được nộp.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; color: #94A3B8; padding: 2rem;">Chưa có đơn đăng ký nào được nộp.</td></tr>`;
                 return;
             }
 
@@ -1502,10 +1575,12 @@
                 tr.innerHTML = `
                     <td style="font-weight: 600; color: #1E293B;">${item.parentName}</td>
                     <td>${item.parentPhone}</td>
+                    <td>${item.parentEmail || '<span style="color:#94A3B8;">Chưa có</span>'}</td>
                     <td>${item.studentName}</td>
                     <td>${item.studentBirthYear}</td>
                     <td style="font-weight: 600; color: var(--primary);">${item.coursePackage}</td>
                     <td style="font-size: 0.85rem; color: #475569;">${item.preferredTime}</td>
+                    <td style="font-size: 0.85rem; color:${item.synced ? '#059669' : '#B45309'};">${item.synced ? 'Đã gửi Sheet' : 'Local fallback'}</td>
                     <td style="font-size: 0.85rem; color: #64748B;">${item.timestamp}</td>
                     <td>
                         <button class="admin-btn admin-btn-danger" onclick="deleteRegistration(${i})"><i class="fa-regular fa-trash-can"></i> Xóa</button>
@@ -1533,17 +1608,19 @@
                 return;
             }
 
-            let csvContent = "\uFEFFHọ Tên Phụ Huynh,Số Zalo,Họ Tên Học Sinh,Năm Sinh Học Sinh,Gói Đăng Ký,Lịch Học Mong Muốn,Thời Gian Nộp\n";
+            let csvContent = "\uFEFFHọ Tên Phụ Huynh,Số Zalo,Email Phụ Huynh,Họ Tên Học Sinh,Năm Sinh Học Sinh,Gói Đăng Ký,Lịch Học Mong Muốn,Trạng Thái,Thời Gian Nộp\n";
             
             registrations.forEach(item => {
-                const parent = item.parentName.replace(/,/g, " ");
-                const phone = item.parentPhone.replace(/,/g, " ");
-                const student = item.studentName.replace(/,/g, " ");
+                const parent = (item.parentName || '').replace(/,/g, " ");
+                const phone = (item.parentPhone || '').replace(/,/g, " ");
+                const email = (item.parentEmail || '').replace(/,/g, " ");
+                const student = (item.studentName || '').replace(/,/g, " ");
                 const birth = item.studentBirthYear;
-                const pack = item.coursePackage.replace(/,/g, " ");
-                const time = item.preferredTime.replace(/,/g, " ");
-                const date = item.timestamp.replace(/,/g, " ");
-                csvContent += `${parent},${phone},${student},${birth},${pack},${time},${date}\n`;
+                const pack = (item.coursePackage || '').replace(/,/g, " ");
+                const time = (item.preferredTime || '').replace(/,/g, " ");
+                const status = item.synced ? 'Da gui Google Sheet' : 'Local fallback';
+                const date = (item.timestamp || '').replace(/,/g, " ");
+                csvContent += `${parent},${phone},${email},${student},${birth},${pack},${time},${status},${date}\n`;
             });
 
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

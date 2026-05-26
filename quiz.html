@@ -139,7 +139,7 @@
             font-size: 0.95rem;
         }
 
-        input[type="text"], input[type="tel"] {
+        input[type="text"], input[type="tel"], input[type="email"] {
             width: 100%;
             padding: 1rem 1.2rem;
             border: 2px solid #E2E8F0;
@@ -149,7 +149,7 @@
             transition: all 0.2s ease;
         }
 
-        input[type="text"]:focus, input[type="tel"]:focus {
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="email"]:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
         }
@@ -513,6 +513,11 @@
                 <label for="parentPhone"><i class="fa-solid fa-phone"></i> Số điện thoại Zalo của phụ huynh:</label>
                 <input type="tel" id="parentPhone" placeholder="Ví dụ: 0901234567" required>
             </div>
+            <div class="form-group">
+                <label for="parentEmail"><i class="fa-regular fa-envelope"></i> Email của phụ huynh:</label>
+                <input type="email" id="parentEmail" placeholder="Ví dụ: phuhuynh@email.com" required>
+                <small style="display:block; margin-top:0.35rem; color:#64748B; font-size:0.78rem;">Dùng để gửi kết quả đánh giá, báo cáo học tập hằng tuần và tài liệu sau buổi học.</small>
+            </div>
 
             <div class="btn-container" style="justify-content: center;">
                 <button class="btn btn-primary" onclick="startQuiz()">Bắt đầu ngay <i class="fa-solid fa-chevron-right"></i></button>
@@ -560,7 +565,9 @@
                         <tr>
                             <th>Học Viên</th>
                             <th>Số Zalo PH</th>
+                            <th>Email PH</th>
                             <th>Điểm Logic</th>
+                            <th>Trạng Thái</th>
                             <th>Thời Gian</th>
                             <th>Hành Động</th>
                         </tr>
@@ -619,7 +626,7 @@
         <div class="modal" style="text-align: center; max-width: 500px; width: 90%;">
             <div style="font-size: 3.5rem; color: #10B981; margin-bottom: 1rem;"><i class="fa-solid fa-circle-check"></i></div>
             <h3 style="color: #10B981; font-size: 1.5rem; margin-bottom: 0.5rem; margin-top: 0;">Báo Cáo Đã Sẵn Sàng!</h3>
-            <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; color: #64748B;">
+            <p id="quizSuccessModalMessage" style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; color: #64748B;">
                 Kết quả bài test đã được sao chép vào bộ nhớ tạm (Clipboard). Phụ huynh vui lòng gửi thông tin vào nhóm Zalo để nhận tư vấn chi tiết từ anh Chấn Phong.
             </p>
 
@@ -1039,19 +1046,50 @@
         let selectedAnswers = {}; // Store chosen options by index
         let studentName = "";
         let parentPhone = "";
+        let parentEmail = "";
+        let latestQuizResultPayload = null;
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygIDUeAadahE7EXMf6GN1UUblrauDvuKoQ4NIP7HfMut-9NtWk7gr-SPyQtrIteKjntg/exec';
+
+        function makeSubmissionId(prefix) {
+            return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        }
+
+        async function postToRegistrationBackend(payload) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body: new URLSearchParams(payload),
+                    signal: controller.signal
+                });
+                const data = await response.json();
+                if (!data.ok) {
+                    throw new Error(data.error || 'Google Sheet endpoint returned an error.');
+                }
+                return data;
+            } finally {
+                clearTimeout(timeoutId);
+            }
+        }
 
         // Start Quiz
         function startQuiz() {
             const nameInput = document.getElementById('studentName').value.trim();
             const phoneInput = document.getElementById('parentPhone').value.trim();
+            const emailInput = document.getElementById('parentEmail').value.trim();
 
-            if (!nameInput || !phoneInput) {
-                alert("Vui lòng nhập đầy đủ tên học viên và số điện thoại Zalo của phụ huynh để bắt đầu!");
+            if (!nameInput || !phoneInput || !emailInput) {
+                alert("Vui lòng nhập đầy đủ tên học viên, số điện thoại Zalo và email của phụ huynh để bắt đầu!");
                 return;
             }
 
             studentName = nameInput;
             parentPhone = phoneInput;
+            parentEmail = emailInput;
 
             // Hide step 0, show quiz step
             document.getElementById('step-0').classList.remove('active');
@@ -1210,14 +1248,16 @@
         }
 
         // Save Attempt to localStorage
-        function saveAttempt(name, phone, score, answers) {
+        function saveAttempt(name, phone, email, score, answers, extra = {}) {
             try {
                 let attempts = JSON.parse(localStorage.getItem('quizAttempts') || '[]');
                 const newAttempt = {
                     name: name,
                     phone: phone,
+                    email: email,
                     score: score,
                     answers: answers,
+                    ...extra,
                     timestamp: new Date().toLocaleString('vi-VN')
                 };
                 attempts.push(newAttempt);
@@ -1228,12 +1268,57 @@
         }
 
         // Copy and Send Zalo
-        function copyAndOpenZalo(messageText) {
+        function updateAttemptSyncStatus(submissionId, synced, syncError = '') {
+            try {
+                let attempts = JSON.parse(localStorage.getItem('quizAttempts') || '[]');
+                attempts = attempts.map(item => item.submissionId === submissionId ? { ...item, synced, syncError } : item);
+                localStorage.setItem('quizAttempts', JSON.stringify(attempts));
+            } catch (e) {
+                console.error("Local storage update error:", e);
+            }
+        }
+
+        async function sendQuizResult() {
+            if (!latestQuizResultPayload) {
+                showToast("Chưa có báo cáo quiz để gửi.");
+                return;
+            }
+
+            const submitBtn = document.querySelector('#step-result .btn-primary');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi báo cáo...`;
+            }
+
+            let synced = false;
+            let syncError = '';
+
+            try {
+                await postToRegistrationBackend(latestQuizResultPayload);
+                synced = true;
+            } catch (err) {
+                syncError = err.message || String(err);
+                console.error("Quiz result sync failed:", err);
+            }
+
+            updateAttemptSyncStatus(latestQuizResultPayload.submissionId, synced, syncError);
+            copyAndOpenZalo(latestQuizResultPayload.messageText, synced);
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Gửi Báo Cáo Qua Zalo Đăng Ký`;
+            }
+        }
+
+        function copyAndOpenZalo(messageText, synced = false) {
             document.getElementById('successReportText').value = messageText;
+            document.getElementById('quizSuccessModalMessage').innerText = synced
+                ? "Kết quả bài test đã được ghi nhận vào Google Sheet và email tóm tắt đã được gửi. Phụ huynh vui lòng tham gia nhóm Zalo để nhận tư vấn chi tiết từ anh Chấn Phong."
+                : "Chưa xác nhận được việc ghi kết quả vào Google Sheet/email. Báo cáo đã được lưu tạm và copy bên dưới; phụ huynh vui lòng gửi vào nhóm Zalo để BTC nhận ngay.";
             document.getElementById('successModal').classList.add('active');
 
             navigator.clipboard.writeText(messageText).then(() => {
-                showToast("Đã tự động sao chép báo cáo kết quả!");
+                showToast(synced ? "Đã gửi báo cáo và sao chép nội dung!" : "Đã sao chép báo cáo dự phòng!");
             }).catch(err => {
                 console.error("Clipboard copy failed:", err);
             });
@@ -1264,8 +1349,6 @@
             }
 
             // Save this attempt to browser local storage
-            saveAttempt(studentName, parentPhone, totalScore, selectedAnswers);
-
             // Hide quiz, show results
             document.getElementById('quiz-step').classList.remove('active');
             document.getElementById('progressBarContainer').style.display = 'none';
@@ -1319,17 +1402,41 @@
             document.getElementById('resultDesc').innerHTML = desc;
 
             // Update registration button to perform copy and open Zalo
+            const levelText = title.replace("—", "").replace("!", "");
+            const submissionId = makeSubmissionId('quiz');
             const msgReport = `Báo cáo đánh giá năng lực Scratch:
 - Học viên: ${studentName}
 - Số Zalo phụ huynh: ${parentPhone}
+- Email phụ huynh: ${parentEmail}
 - Điểm logic: ${totalScore}/110 điểm
-- Phân loại: ${title.replace("—", "").replace("!", "")}
+- Phân loại: ${levelText}
 - Đề xuất tốt nghiệp: ${recProject}`;
+
+            latestQuizResultPayload = {
+                kind: 'quiz',
+                submissionId,
+                studentName,
+                parentPhone,
+                parentEmail,
+                logicScore: `${totalScore}/110`,
+                level: levelText,
+                recommendedProject: recProject,
+                rawAnswersJson: JSON.stringify(selectedAnswers),
+                messageText: msgReport
+            };
+
+            saveAttempt(studentName, parentPhone, parentEmail, totalScore, selectedAnswers, {
+                submissionId,
+                synced: false,
+                syncError: 'not_sent',
+                level: levelText,
+                recommendedProject: recProject
+            });
 
             const submitBtn = document.querySelector('#step-result .btn-primary');
             if (submitBtn) {
                 submitBtn.removeAttribute('href');
-                submitBtn.setAttribute('onclick', `copyAndOpenZalo(\`${msgReport}\`)`);
+                submitBtn.setAttribute('onclick', `sendQuizResult()`);
                 submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Gửi Báo Cáo Qua Zalo Đăng Ký`;
             }
         }
@@ -1358,7 +1465,7 @@
             tableBody.innerHTML = "";
 
             if (attempts.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94A3B8; padding: 2rem;">Chưa có dữ liệu bài test nào được nộp.</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94A3B8; padding: 2rem;">Chưa có dữ liệu bài test nào được nộp.</td></tr>`;
                 return;
             }
 
@@ -1369,7 +1476,9 @@
                 tr.innerHTML = `
                     <td style="font-weight:600; color:#1E293B;">${item.name}</td>
                     <td>${item.phone}</td>
+                    <td>${item.email || '<span style="color:#94A3B8;">Chưa có</span>'}</td>
                     <td style="font-weight:700; color:var(--primary);">${item.score}/110</td>
+                    <td style="color:${item.synced ? '#059669' : '#B45309'};">${item.synced ? 'Đã gửi Sheet' : 'Local fallback'}</td>
                     <td style="color:#64748B;">${item.timestamp}</td>
                     <td>
                         <button class="admin-btn admin-btn-danger" onclick="deleteAttempt(${i})"><i class="fa-regular fa-trash-can"></i> Xóa</button>
@@ -1398,14 +1507,16 @@
             }
 
             // CSV Header with UTF-8 BOM to display accented characters in Excel
-            let csvContent = "﻿Họ Tên Học Viên,Số Zalo Phụ Huynh,Điểm Logic,Thời Gian Nộp\n";
+            let csvContent = "﻿Họ Tên Học Viên,Số Zalo Phụ Huynh,Email Phụ Huynh,Điểm Logic,Trạng Thái,Thời Gian Nộp\n";
             
             attempts.forEach(item => {
-                const name = item.name.replace(/,/g, " ");
-                const phone = item.phone.replace(/,/g, " ");
+                const name = (item.name || '').replace(/,/g, " ");
+                const phone = (item.phone || '').replace(/,/g, " ");
+                const email = (item.email || '').replace(/,/g, " ");
                 const score = `${item.score}/110`;
-                const date = item.timestamp.replace(/,/g, " ");
-                csvContent += `${name},${phone},${score},${date}\n`;
+                const status = item.synced ? 'Da gui Google Sheet' : 'Local fallback';
+                const date = (item.timestamp || '').replace(/,/g, " ");
+                csvContent += `${name},${phone},${email},${score},${status},${date}\n`;
             });
 
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
