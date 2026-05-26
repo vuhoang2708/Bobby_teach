@@ -1288,6 +1288,44 @@
         </div>
     </div>
 
+    <!-- REGISTRATION SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box" style="text-align: center;">
+            <button class="modal-close-btn" onclick="closeSuccessModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div style="font-size: 3.5rem; color: #10B981; margin-bottom: 1rem;"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="form-title" style="color: #10B981;">Đăng Ký Thành Công!</div>
+            <div class="form-subtitle" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+                Thông tin đăng ký đã được sao chép vào bộ nhớ tạm (Clipboard). Phụ huynh vui lòng gửi thông tin vào nhóm Zalo để hoàn tất.
+            </div>
+
+            <!-- QR Code Section -->
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 1.2rem; border-radius: 16px; margin-bottom: 1.5rem; display: inline-block; width: 100%;">
+                <img src="images/zalo_group_qr.png" alt="Zalo Group QR" style="width: 220px; height: 220px; border-radius: 12px; display: block; margin: 0 auto 0.5rem; border: 1px solid #CBD5E1;">
+                <span style="font-size: 0.95rem; color: #0F172A; font-weight: 700; display: block; margin-top: 0.5rem;">Nhóm: Khai mở đam mê lập trình 2026</span>
+                <span style="font-size: 0.8rem; color: #64748B; display: block; margin-top: 0.2rem;">Quét mã QR bằng điện thoại để tham gia nhóm</span>
+            </div>
+
+            <!-- Copied Text Box (for fallback) -->
+            <div style="margin-bottom: 1.5rem; text-align: left;">
+                <label style="font-size: 0.85rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.3rem;">Nội dung đã copy (phụ huynh dán vào Zalo):</label>
+                <div style="position: relative;">
+                    <textarea id="successReportText" readonly style="width: 100%; height: 90px; padding: 0.75rem; padding-right: 5rem; border-radius: 12px; border: 1px solid #CBD5E1; background: #F1F5F9; font-size: 0.85rem; font-family: inherit; color: #334155; resize: none;"></textarea>
+                    <button onclick="copySuccessReportText()" style="position: absolute; right: 8px; bottom: 8px; background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;"><i class="fa-regular fa-copy"></i> Copy lại</button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <a href="https://zalo.me/g/0wmtdrhd53aftwfa4dx0" target="_blank" class="btn btn-primary" style="justify-content: center; font-size: 1.05rem; padding: 0.8rem 1.5rem; width: 100%; text-decoration: none; border-radius: 12px;">
+                    <i class="fa-solid fa-users"></i> Vào Nhóm Zalo Lớp Học
+                </a>
+                <button onclick="closeSuccessModal()" class="btn" style="justify-content: center; background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; width: 100%; cursor: pointer; border-radius: 12px; padding: 0.8rem 1.5rem; font-weight: 600;">
+                    Quay lại trang chủ
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ADMIN REGISTRATIONS DASHBOARD -->
     <div class="admin-container" id="adminContainer">
         <div class="admin-header">
@@ -1414,15 +1452,27 @@
 - Gói học: ${coursePackage}
 - Ca học mong muốn: ${preferredTime}`;
 
-            // Copy and open Zalo
+            // Show success modal & copy report
+            document.getElementById('successReportText').value = msgReport;
+            document.getElementById('successModal').classList.add('active');
+
             navigator.clipboard.writeText(msgReport).then(() => {
                 showToast("Đã sao chép tin nhắn đăng ký!");
-                setTimeout(() => {
-                    window.open("https://zalo.me/0904533033", "_blank");
-                }, 1000);
             }).catch(err => {
                 console.error("Clipboard write failed:", err);
-                window.open("https://zalo.me/0904533033", "_blank");
+            });
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function copySuccessReportText() {
+            const text = document.getElementById('successReportText').value;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Đã sao chép lại tin nhắn!");
+            }).catch(err => {
+                console.error("Clipboard copy failed:", err);
             });
         }
 
