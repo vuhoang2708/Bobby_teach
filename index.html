@@ -174,7 +174,7 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 6vw, 3.5rem);
             margin-bottom: 1.5rem;
             color: var(--dark);
         }
@@ -489,15 +489,36 @@
 
         /* Responsive */
         @media (max-width: 900px) {
+            .hide-on-mobile { display: none !important; }
+            
+            .hero-image {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            .hero-image > div {
+                height: 280px !important;
+            }
+            
+            .modal-box {
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            .nav-links { display: none !important; }
+            nav { padding: 0.8rem 5%; }
+            .logo { font-size: 1.1rem; }
+            .price-card { max-width: 100%; box-sizing: border-box; }
+            .timeline-content { box-sizing: border-box; width: 100%; max-width: 100vw; overflow-x: hidden; }
             .hero {
                 flex-direction: column;
                 text-align: center;
                 padding-top: 8rem;
             }
             .hero-content {
-                padding-right: 0;
+                padding: 0 1rem; width: 100%; box-sizing: border-box;
                 margin-bottom: 3rem;
             }
+            .hero h1 { font-size: 2.2rem !important; }
             .stats {
                 flex-direction: column;
             }
@@ -572,6 +593,8 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             border: 1px solid rgba(226, 232, 240, 0.8);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-overlay.active .modal-box {
@@ -910,10 +933,10 @@
         <div class="logo">
             <i class="fa-solid fa-code"></i> Passionate Developer 2026
         </div>
-        <div>
-            <a href="#ve-bobby" class="btn" style="color: var(--dark);">Người hướng dẫn</a>
-            <a href="#scratch-intro" class="btn" style="color: var(--dark);">Scratch là gì?</a>
-            <a href="#chuong-trinh" class="btn" style="color: var(--dark);">Chương trình học</a>
+        <div class="nav-links">
+            <a href="#ve-bobby" class="btn hide-on-mobile" style="color: var(--dark);">Người hướng dẫn</a>
+            <a href="#scratch-intro" class="btn hide-on-mobile" style="color: var(--dark);">Scratch là gì?</a>
+            <a href="#chuong-trinh" class="btn hide-on-mobile" style="color: var(--dark);">Chương trình học</a>
             <a href="#dang-ky" class="btn btn-primary">Đăng ký ngay</a>
         </div>
     </nav>
