@@ -627,7 +627,7 @@
             <div style="font-size: 3.5rem; color: #10B981; margin-bottom: 1rem;"><i class="fa-solid fa-circle-check"></i></div>
             <h3 style="color: #10B981; font-size: 1.5rem; margin-bottom: 0.5rem; margin-top: 0;">Báo Cáo Đã Sẵn Sàng!</h3>
             <p id="quizSuccessModalMessage" style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; color: #64748B;">
-                Kết quả bài test đã được sao chép vào bộ nhớ tạm (Clipboard). Phụ huynh vui lòng gửi thông tin vào nhóm Zalo để nhận tư vấn chi tiết từ anh Chấn Phong.
+                Kết quả bài test đã được ghi nhận. Phụ huynh vui lòng tham gia nhóm Zalo để nhận tư vấn chi tiết từ anh Chấn Phong.
             </p>
 
             <!-- QR Code Section -->
@@ -639,7 +639,7 @@
 
             <!-- Copied Text Box (for fallback) -->
             <div style="margin-bottom: 1.5rem; text-align: left;">
-                <label style="font-size: 0.85rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.3rem;">Báo cáo kết quả của em (phụ huynh dán vào Zalo):</label>
+                <label style="font-size: 0.85rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.3rem;">Bản sao báo cáo kết quả (dự phòng nếu cần đối chiếu):</label>
                 <div style="position: relative;">
                     <textarea id="successReportText" readonly style="width: 100%; height: 90px; padding: 0.75rem; padding-right: 5rem; border-radius: 12px; border: 1px solid #CBD5E1; background: #F1F5F9; font-size: 0.85rem; font-family: inherit; color: #334155; resize: none; outline: none;"></textarea>
                     <button onclick="copySuccessReportText()" style="position: absolute; right: 8px; bottom: 8px; background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;"><i class="fa-regular fa-copy"></i> Copy lại</button>
@@ -1313,7 +1313,7 @@
         function copyAndOpenZalo(messageText, synced = false) {
             document.getElementById('successReportText').value = messageText;
             document.getElementById('quizSuccessModalMessage').innerText = synced
-                ? "Kết quả bài test đã được ghi nhận vào Google Sheet và email tóm tắt đã được gửi. Phụ huynh vui lòng tham gia nhóm Zalo để nhận tư vấn chi tiết từ anh Chấn Phong."
+                ? "Kết quả bài test đã được ghi nhận vào Google Sheet và email tóm tắt đã được gửi. Phụ huynh chỉ cần tham gia nhóm Zalo để nhận tư vấn, lịch học thử và cập nhật lớp."
                 : "Chưa xác nhận được việc ghi kết quả vào Google Sheet/email. Báo cáo đã được lưu tạm và copy bên dưới; phụ huynh vui lòng gửi vào nhóm Zalo để BTC nhận ngay.";
             document.getElementById('successModal').classList.add('active');
 

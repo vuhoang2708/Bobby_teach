@@ -12,7 +12,7 @@ This UAT must confirm:
 1. Parent email is required in both registration and quiz entry.
 2. Registration submit writes to Google Sheet and sends emails.
 3. Quiz result submit writes to Google Sheet and sends emails.
-4. Zalo Group Success Modal still appears after submit.
+4. Zalo Group Success Modal still appears after submit, but does not require parents to paste data after Sheet/email success.
 5. If Google Sheet/email fails, the UI does not claim false success and keeps copy/Zalo fallback.
 
 ---
@@ -101,7 +101,7 @@ Thông tin đăng ký đã được ghi nhận vào Google Sheet và email xác 
 9. Confirm modal still shows:
    - QR code image
    - Button `Vào Nhóm Zalo Lớp Học`
-   - textarea with copied registration content including parent email
+   - textarea with registration content as backup/reference only, not as a required paste step
 10. Verify Google Sheet tab `Registrations` has a row containing `GEMINI_UAT Registration Student`.
 11. Verify email received:
    - BTC email: `vuhoang2708@gmail.com`
@@ -136,9 +136,14 @@ Kết quả bài test đã được ghi nhận vào Google Sheet và email tóm 
 9. Confirm modal still shows:
    - QR code image
    - Button `Vào Nhóm Zalo Lớp Học`
-   - textarea with copied quiz report including parent email
-10. Verify Google Sheet tab `QuizResults` has a row containing `GEMINI_UAT Quiz Student`.
-11. Verify email received:
+   - textarea with quiz report as backup/reference only, not as a required paste step
+10. Confirm quiz email explains:
+   - level is calculated from the first 11 scored logic questions
+   - maximum score is 110
+   - thresholds are Level 0 `<50`, Level 1 `50-79`, Level 1-2 `>=80`
+   - CTA is to join the Zalo group for consultation, trial-class scheduling, and class updates
+11. Verify Google Sheet tab `QuizResults` has a row containing `GEMINI_UAT Quiz Student`.
+12. Verify email received:
    - BTC email: `vuhoang2708@gmail.com`
    - Secondary email: `chanphong.bobby@gmail.com` if configured as CC
    - Parent quiz summary email to `vuhoang2708@gmail.com`
@@ -169,6 +174,7 @@ PASS only if:
 - Quiz row appears in `QuizResults`.
 - Emails are received by expected inboxes.
 - Success modal appears and Zalo link works.
+- Success modal does not ask parents to paste content into Zalo after Sheet/email success.
 - Email blank is blocked in both flows.
 - No severe console errors during submit.
 

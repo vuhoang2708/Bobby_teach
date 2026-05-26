@@ -253,7 +253,7 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
   - [x] Xác minh backend: Apps Script báo đã gửi email cho BTC và phụ huynh
   - [ ] Xác minh browser live: submit từ Vercel không bị CORS chặn
   - [ ] Xác minh inbox: BTC/phụ huynh nhận email thực tế
-  - [ ] Giữ Zalo Group Success Modal như bước tham gia cộng đồng sau khi submit thành công
+  - [ ] Giữ Zalo Group Success Modal như CTA tham gia cộng đồng sau khi submit thành công, không yêu cầu phụ huynh dán nội dung nếu Sheet/email đã ghi nhận
 - [ ] **Phase 4 — Vận Hành**
   - [ ] Chạy buổi trải nghiệm học thử đầu tiên
   - [ ] Test workflow ShareX → Gemini Recap → Gửi Zalo phụ huynh
@@ -298,6 +298,7 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
 - **2026-05-26:** Bổ sung phương án vận hành đăng ký chính thức: yêu cầu Email phụ huynh, ghi dữ liệu vào Google Sheet, gửi email cho BTC và phụ huynh; Zalo Group chuyển thành kênh cộng đồng/fallback sau submit.
 - **2026-05-26:** Tích hợp frontend với Apps Script Web App cho form đăng ký và quiz; còn cần UAT live để xác minh Google Sheet + email thực nhận.
 - **2026-05-26:** Real backend test pass với Apps Script redeploy URL: registration và quiz đều trả `ok: true`; tạo kịch bản Gemini browser UAT để kiểm tra live Vercel/CORS/inbox.
+- **2026-05-26:** Cập nhật UX hậu-submit: khi Google Sheet/email đã thành công, phụ huynh chỉ cần tham gia nhóm Zalo; nội dung copy/textarea chỉ còn là dự phòng/đối chiếu.
 
 ---
  
