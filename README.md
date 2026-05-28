@@ -118,6 +118,37 @@ Bobby-Teaching/
 ### Ghi hình & Recap:
 - **ShareX** (Portable, v20.1.0) — Ghi màn hình + mic
 - **Gemini / NotebookLM** — Tóm tắt buổi học tự động để gửi phụ huynh
+- **bobby-class-recap (AI Skill)** — Tự động hóa bóc băng ghi âm và sinh recap
+
+---
+
+## 🎙️ Hướng Dẫn Chạy AI Skill Tóm Tắt Buổi Học (`bobby-class-recap`)
+
+Quy trình tự động bóc tách âm thanh và làm recap sau mỗi buổi học Scratch được thực hiện qua các bước dưới đây:
+
+### Bước 1: Ghi hình buổi học
+* **Cài đặt ShareX:** Tải và cài đặt ShareX phiên bản bất kỳ (khuyên dùng bản cài đặt chính thức từ trang chủ `getsharex.com` để tự động cấu hình phím tắt).
+* Phím tắt ghi hình nhanh: `Shift + PrintScreen` (bấm một lần để bắt đầu quay, bấm lại lần nữa để dừng và lưu video).
+* Video sau khi quay sẽ tự động lưu dưới dạng `.mp4` hoặc `.mkv` trong thư mục mặc định `Documents/ShareX/Screenshots`.
+
+### Bước 2: Chạy Script trích xuất âm thanh
+Sau khi buổi học kết thúc và video đã được lưu, mở **Command Prompt** hoặc **PowerShell** tại thư mục dự án và chạy dòng lệnh sau:
+```powershell
+python scripts/recap_helper.py
+```
+*(Nếu máy chưa cài Python, hãy tải và cài đặt Python 3.12 từ trang chủ `python.org`)*
+* **Cơ chế hoạt động động (Dynamic Process):**
+  1. Script tự động phát hiện thư mục screenshots của ShareX tương ứng với Windows User hiện tại (`Documents/ShareX/Screenshots`).
+  2. Tự động tìm kiếm tệp tin video mới nhất vừa ghi hình.
+  3. Tự động định vị `ffmpeg.exe` trên máy. Nếu chưa có, script sẽ **tự động tải xuống** bản portable từ server chính thức của ShareX và cấu hình chạy ngay lập tức.
+  4. Trích xuất âm thanh thành tệp `.mp3` dung lượng thấp, lưu tại thư mục `recaps/` trong dự án.
+
+### Bước 3: Đưa audio lên AI tạo tóm tắt
+1. Người dùng mở trang **Google NotebookLM** (ví dụ notebook đang làm việc: `Trainning AI - A Vũ 22072025`).
+2. Nhấn nút **Add Source** -> Tải file `.mp3` vừa tạo ở Bước 2 lên.
+3. Sử dụng mẫu câu lệnh (prompt) sau để yêu cầu AI tạo recap:
+   > *"Hãy đóng vai trợ lý giảng dạy lớp Scratch Hè 2026 của anh Chấn Phong. Đọc bản ghi âm buổi học đính kèm và tạo bản tóm tắt (Recap) bằng tiếng Việt thật chuyên nghiệp, dễ thương, hướng đến phụ huynh học sinh (8-12 tuổi). Nêu rõ: chủ đề chính, các kiến thức cốt lõi (vòng lặp, tọa độ, biến, sự kiện), đánh giá lớp học của anh Chấn Phong, và bài tập về nhà cụ thể. Văn phong ấm áp, tôn trọng, xưng hô 'Chấn Phong' và 'các con'."*
+4. Copy kết quả recap, điền thêm các link sản phẩm Scratch của học sinh, rồi gửi trực tiếp vào nhóm Zalo lớp học.
 
 ---
 
@@ -263,14 +294,16 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
 
 ## 📁 Tài Liệu Liên Quan
 
-| File | Nội dung |
+| File / Thư mục | Nội dung |
 |------|---------|
 | `LandingPage/index.html` | Landing Page chính |
 | `LandingPage/quiz.html` | Bài đánh giá đầu vào tương tác |
+| `C:\Users\vu.hoang\.gemini\antigravity\skills\bobby-class-recap\SKILL.md` | Tài liệu đặc tả **AI Skill** tóm tắt buổi học |
 | `Implementation Plan/implementation_plan_20260524_EntranceQuizAndAgeRevamp.md` | Kế hoạch quiz & cập nhật tuổi |
 | `Implementation Plan/implementation_plan_20260524_QuizExplanationsAndAdminPanel.md` | Kế hoạch giải thích đáp án & admin quiz |
 | `Implementation Plan/implementation_plan_20260524_RegistrationFormAndDataCollection.md` | Kế hoạch form đăng ký |
 | `Implementation Plan/implementation_plan_20260526_GoogleSheetEmailRegistration.md` | Kế hoạch nâng cấp đăng ký qua Google Sheet + email |
+| `Implementation Plan/implementation_plan_20260528_CreateBobbyClassRecapSkill.md` | Kế hoạch xây dựng AI Skill tóm tắt buổi học |
 
 ---
 
