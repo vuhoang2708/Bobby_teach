@@ -501,6 +501,88 @@
             text-align: center;
         }
 
+        /* New Custom Classes for Responsive Layout */
+        .hero-placeholder {
+            width: 100%;
+            height: 400px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            box-shadow: var(--shadow);
+            transform: rotate(-2deg);
+            transition: transform 0.3s;
+        }
+        .hero-placeholder:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .btn-outline {
+            background: white;
+            border: 2px solid #E2E8F0;
+            color: var(--dark);
+        }
+        .btn-outline:hover {
+            background: #F8FAFC;
+            border-color: #CBD5E1;
+            transform: translateY(-2px);
+        }
+        .mentor-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            align-items: center;
+        }
+        .mentor-col-left {
+            flex: 1;
+            min-width: 300px;
+        }
+        .mentor-col-right {
+            flex: 1;
+            min-width: 300px;
+            background: var(--light);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--secondary);
+        }
+        .scratch-cta-wrapper {
+            margin-top: 1rem;
+        }
+        .course-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
+        }
+        .course-info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .course-info-card:hover {
+            transform: translateY(-5px);
+        }
+        .course-info-card.primary {
+            border-left: 4px solid var(--primary);
+        }
+        .course-info-card.secondary {
+            border-left: 4px solid var(--secondary);
+        }
+
         /* Responsive */
         @media (max-width: 900px) {
             .hide-on-mobile { display: none !important; }
@@ -510,8 +592,9 @@
                 max-width: 500px;
                 margin: 0 auto;
             }
-            .hero-image > div {
-                height: 280px !important;
+            .hero-placeholder {
+                height: 280px;
+                transform: none !important;
             }
             
             .modal-box {
@@ -522,7 +605,7 @@
             nav { padding: 0.8rem 5%; }
             .logo { font-size: 1.1rem; }
             .price-card { max-width: 100%; box-sizing: border-box; }
-            .timeline-content { box-sizing: border-box; width: 100%; max-width: 100vw; overflow-x: hidden; }
+            .timeline-content { box-sizing: border-box; width: 100%; max-width: 100%; overflow-x: hidden; }
             .hero {
                 flex-direction: column;
                 text-align: center;
@@ -560,7 +643,8 @@
                 transform: translate(-50%, 0);
             }
             .timeline-media-box {
-                height: 160px;
+                height: auto;
+                aspect-ratio: 16 / 9;
             }
             .price-card.popular {
                 transform: none;
@@ -570,6 +654,83 @@
             }
             .floating-element {
                 display: none;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .mentor-grid {
+                gap: 2rem;
+            }
+            .mentor-col-left, .mentor-col-right {
+                min-width: 100%;
+            }
+            .scratch-cta-wrapper {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                display: none;
+            }
+            .timeline-item {
+                padding-left: 0 !important;
+                margin-bottom: 2.5rem;
+            }
+            .timeline-dot {
+                display: none !important;
+            }
+            .timeline-content {
+                padding: 1.5rem;
+            }
+            .week-badge {
+                position: relative;
+                top: 0;
+                left: 0;
+                display: inline-block;
+                margin-bottom: 0.8rem;
+                box-shadow: none;
+                transform: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: clamp(1.8rem, 8vw, 2.2rem) !important;
+                word-wrap: break-word;
+                hyphens: auto;
+            }
+            .hero-placeholder {
+                height: 200px;
+                font-size: 3rem;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .hero-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .price-card .btn {
+                height: auto;
+                min-height: 52px;
+                padding: 0.8rem 1rem;
+                font-size: 1rem;
+            }
+            .modal-box {
+                padding: 1.25rem 1rem;
+                width: 95%;
+                max-height: 95vh;
+            }
+            .form-title {
+                font-size: 1.3rem;
+            }
+            .form-subtitle {
+                margin-bottom: 1rem;
+            }
+            .form-grid {
+                gap: 0.8rem;
             }
         }
     
@@ -1000,16 +1161,16 @@
                     </div>
                 </div>
             </div>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: flex-start;">
+            <div class="hero-buttons">
                 <a href="#dang-ky" class="btn btn-secondary"><i class="fa-solid fa-rocket"></i> Đăng Ký Ngay</a>
-                <a href="#ve-bobby" class="btn" style="background: white; border: 2px solid #E2E8F0;"><i class="fa-solid fa-play"></i> Tìm hiểu thêm</a>
+                <a href="#ve-bobby" class="btn btn-outline"><i class="fa-solid fa-play"></i> Tìm hiểu thêm</a>
             </div>
             
 
         </div>
         <div class="hero-image">
             <!-- Placeholder for Bobby's teaching photo -->
-            <div style="width: 100%; height: 400px; background: var(--gradient-1); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: var(--shadow); transform: rotate(-2deg);">
+            <div class="hero-placeholder">
                 <i class="fa-solid fa-laptop-code"></i>
             </div>
             
@@ -1034,14 +1195,14 @@
             <p>Hành trình từ một cậu bé nhút nhát đến bục nhận giải quốc tế.</p>
         </div>
         
-        <div style="display: flex; flex-wrap: wrap; gap: 4rem; max-width: 1000px; margin: 0 auto; align-items: center;">
-            <div style="flex: 1; min-width: 300px;">
+        <div class="mentor-grid">
+            <div class="mentor-col-left">
                 <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--primary);">Từ cậu bé nhút nhát đến Champion Quốc tế</h3>
                 <p style="margin-bottom: 1.2rem; font-size: 1.1rem;">Năm 6 tuổi, Chấn Phong là một cậu bé cực kỳ nhút nhát. Chính lập trình đã thay đổi điều đó — từng dòng lệnh, từng dự án nhỏ giúp em dần tìm thấy sự tự tin mà em tưởng mình không có.</p>
                 <p style="margin-bottom: 1.2rem; font-size: 1.1rem;">Đến năm 10 tuổi, cậu bé năm nào sợ nói chuyện với người lạ đã tự mình đứng lớp chia sẻ cho nhiều em nhỏ chưa từng tiếp xúc lập trình.</p>
                 <p style="font-size: 1.1rem; font-weight: 700;">Ở tuổi 14 — với cúp Vô địch Olympic Tin học Quốc tế tại Singapore và 2 giải Nghiên cứu Khoa học — Chấn Phong mong muốn chia sẻ không chỉ là kiến thức, kinh nghiệm mà còn là câu chuyện và đam mê khám phá lập trình và khoa học.</p>
             </div>
-            <div style="flex: 1; min-width: 300px; background: var(--light); padding: 2rem; border-radius: var(--radius); border-left: 5px solid var(--secondary);">
+            <div class="mentor-col-right">
                 <h4 style="margin-bottom: 1rem;">🏆 Thành tích nổi bật</h4>
                 <ul style="list-style: none;">
                     <li style="margin-bottom: 0.8rem;">🥇 <strong>Champion</strong> — Hong Kong International Computational Olympiad 2024–2025, Singapore</li>
@@ -1095,7 +1256,7 @@
                     </div>
                 </div>
                 
-                <div style="margin-top: 1rem;">
+                <div class="scratch-cta-wrapper">
                     <a href="quiz.html" class="btn btn-primary" style="text-decoration: none;"><i class="fa-solid fa-clipboard-question"></i> Kiểm tra sự phù hợp</a>
                 </div>
             </div>
@@ -1108,8 +1269,8 @@
             <p>Khóa học gồm 2 buổi chính (2 giờ/buổi) + buổi sửa bài và mở rộng mỗi tuần. Tổng cộng 36 giờ lý thuyết và thực hành.</p>
         </div>
 
-        <div class="course-info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto 3rem auto; padding: 0 1rem;">
-            <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 4px solid var(--primary); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div class="course-info-grid">
+            <div class="course-info-card primary">
                 <h3 style="margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 0.8rem;"><i class="fa-solid fa-clock" style="color: var(--primary); font-size: 1.2rem;"></i> Lịch Học (Thứ 2 - 4 - 6)</h3>
                 <ul style="list-style: none; color: #475569; display: flex; flex-direction: column; gap: 0.8rem;">
                     <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Giờ học:</strong> 09:30 - 11:30 hoặc 15:00 - 17:00 (Giải lao 10 phút)</li>
@@ -1117,7 +1278,7 @@
                     <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Bế giảng (Graduation):</strong> Thứ sáu 10/07</li>
                 </ul>
             </div>
-            <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 4px solid var(--secondary); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div class="course-info-card secondary">
                 <h3 style="margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 0.8rem;"><i class="fa-solid fa-laptop-code" style="color: var(--secondary); font-size: 1.2rem;"></i> Hình Thức & Nền Tảng</h3>
                 <ul style="list-style: none; color: #475569; display: flex; flex-direction: column; gap: 0.8rem;">
                     <li><i class="fa-solid fa-play" style="color: var(--secondary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Tương tác:</strong> 100% Online qua GG Meet / Zoom</li>
