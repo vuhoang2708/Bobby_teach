@@ -67,14 +67,16 @@ Bobby-Teaching/
 **Độ tuổi:** 8–12 tuổi | **Sĩ số:** Tối đa 5–6 học viên/lớp
 
 ### Lịch học chi tiết:
-- **Thời gian:** 09:30 - 11:30 hoặc 15:00 - 17:00 (Giải lao 10 phút giữa giờ)
-- **Ngày học:** Thứ Hai - Thứ Tư - Thứ Sáu
-- **Ngày khai giảng (Học thử):** 01/06/2026 (Quốc Tế Thiếu Nhi)
-- **Ngày bế giảng (Graduation Day):** Thứ Sáu, 10/07/2026
+- **Buổi học thử:** 14h30 Thứ Ba, 02/06/2026
+- **Thời gian 2 buổi chính:** 14h30 - 16h30
+- **Ngày học chính:** Thứ Ba - Thứ Năm
+- **Buổi thực hành/sửa bài:** 2 giờ/tuần, lịch xác nhận riêng
+- **Ngày khai giảng khóa chính:** Thứ Ba, 09/06/2026
+- **Ngày bế giảng (Graduation Day):** Thứ Năm, 16/07/2026
 
 ### Cấu trúc giờ học mỗi tuần:
 - **2 buổi chính:** 2 giờ/buổi
-- **1 buổi sửa bài và mở rộng:** 2 giờ/buổi
+- **1 buổi thực hành/sửa bài:** 2 giờ/buổi
 - **Tổng:** 6 giờ/tuần (tổng cộng 36 giờ thực hành)
 
 ### Giáo án 6 Tuần (Scratch 3.0):
@@ -195,7 +197,7 @@ Khi phụ huynh click nút **"Đăng Ký Khóa Học"** hoặc **"Đăng Ký The
 | Họ tên Học sinh | Text, bắt buộc |
 | Năm sinh Học sinh | Dropdown 2014–2018 (8–12 tuổi) |
 | Gói đăng ký | Auto-chọn theo nút đã click, có thể đổi |
-| Ca học mong muốn | Ca Sáng (09:30 - 11:30) / Ca Chiều (15:00 - 17:00) / Linh hoạt |
+| Ca học mong muốn | Khóa chính 14h30 - 16h30 (Thứ Ba & Thứ Năm) / Học thử 14h30 Thứ Ba 02/06 / Linh hoạt |
 
 ### Luồng hiện tại sau khi Submit:
 ```

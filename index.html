@@ -582,6 +582,43 @@
         .course-info-card.secondary {
             border-left: 4px solid var(--secondary);
         }
+        .scratch-examples {
+            max-width: 1000px;
+            margin: -1rem auto 3rem auto;
+            padding: 0 1rem;
+        }
+        .scratch-examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .scratch-example-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+        }
+        .scratch-example-card h4 {
+            margin-bottom: 0.45rem;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+        .scratch-example-card p {
+            color: #64748B;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.85rem;
+        }
+        .scratch-example-card a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--primary);
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
 
         /* Responsive */
         @media (max-width: 900px) {
@@ -1269,16 +1306,18 @@
     <section id="chuong-trinh">
         <div class="section-header">
             <h2>Lộ Trình 6 Tuần Cùng Scratch</h2>
-            <p>Khóa học gồm 2 buổi chính (2 giờ/buổi) + buổi sửa bài và mở rộng mỗi tuần. Tổng cộng 36 giờ lý thuyết và thực hành.</p>
+            <p>Khóa học gồm 2 buổi chính và 1 buổi thực hành/sửa bài mỗi tuần. Tổng cộng 36 giờ lý thuyết và thực hành.</p>
         </div>
 
         <div class="course-info-grid">
             <div class="course-info-card primary">
-                <h3 style="margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 0.8rem;"><i class="fa-solid fa-clock" style="color: var(--primary); font-size: 1.2rem;"></i> Lịch Học (Thứ 2 - 4 - 6)</h3>
+                <h3 style="margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 0.8rem;"><i class="fa-solid fa-clock" style="color: var(--primary); font-size: 1.2rem;"></i> Lịch Học (Thứ 3 &amp; Thứ 5)</h3>
                 <ul style="list-style: none; color: #475569; display: flex; flex-direction: column; gap: 0.8rem;">
-                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Giờ học:</strong> 09:30 - 11:30 hoặc 15:00 - 17:00 (Giải lao 10 phút)</li>
-                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Khai giảng (Học thử):</strong> 01/06 (Quốc Tế Thiếu Nhi)</li>
-                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Bế giảng (Graduation):</strong> Thứ sáu 10/07</li>
+                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Giờ học chính:</strong> 14h30 - 16h30, Thứ Ba &amp; Thứ Năm</li>
+                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Buổi thực hành/sửa bài:</strong> 2 giờ/tuần, lịch xác nhận riêng</li>
+                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Buổi học thử:</strong> 14h30 Thứ Ba 02/06</li>
+                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Khai giảng khóa chính:</strong> Thứ Ba 09/06</li>
+                    <li><i class="fa-solid fa-play" style="color: var(--primary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Bế giảng (Graduation):</strong> Thứ Năm 16/07</li>
                 </ul>
             </div>
             <div class="course-info-card secondary">
@@ -1288,6 +1327,35 @@
                     <li><i class="fa-solid fa-play" style="color: var(--secondary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Lưu trữ dự án:</strong> Nền tảng <a href="https://scratch.mit.edu" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: bold;">scratch.mit.edu</a></li>
                     <li><i class="fa-solid fa-play" style="color: var(--secondary); font-size: 0.8rem; margin-right: 0.5rem;"></i><strong>Báo cáo học tập:</strong> Cập nhật hàng tuần qua Email</li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="scratch-examples">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <h3 style="font-size: 1.7rem; margin-bottom: 0.5rem;">Ví Dụ Sản Phẩm Scratch Tương Đương</h3>
+                <p style="font-size: 1rem;">Một vài dự án public để phụ huynh hình dung đầu ra: từ game hứng đồ, điều khiển nhân vật đến platformer hoàn chỉnh.</p>
+            </div>
+            <div class="scratch-examples-grid">
+                <div class="scratch-example-card">
+                    <h4>Fruit Catcher</h4>
+                    <p>Minh họa game hứng đồ với điểm số, va chạm và biến số.</p>
+                    <a href="https://scratch.mit.edu/projects/404400397/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Xem trên Scratch</a>
+                </div>
+                <div class="scratch-example-card">
+                    <h4>Appel</h4>
+                    <p>Ví dụ game platformer mượt, phù hợp để hình dung dự án cuối khóa.</p>
+                    <a href="https://scratch.mit.edu/projects/60917032/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Xem trên Scratch</a>
+                </div>
+                <div class="scratch-example-card">
+                    <h4>Cloud Platformer</h4>
+                    <p>Minh họa game nhiều màn, điều khiển nhân vật và xử lý va chạm nâng cao.</p>
+                    <a href="https://scratch.mit.edu/projects/12785898/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Xem trên Scratch</a>
+                </div>
+                <div class="scratch-example-card">
+                    <h4>Cats TD 3</h4>
+                    <p>Ví dụ game hoàn chỉnh hơn với logic, tài nguyên và nhiều trạng thái chơi.</p>
+                    <a href="https://scratch.mit.edu/projects/445982984/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Xem trên Scratch</a>
+                </div>
             </div>
         </div>
 
@@ -1502,8 +1570,8 @@
                     <div class="form-group">
                         <label for="preferredTime"><i class="fa-regular fa-clock"></i> Ca học mong muốn:</label>
                         <select id="preferredTime" required>
-                            <option value="Ca Sáng: 09:30 - 11:30 (Thứ 2 - 4 - 6)">Ca Sáng: 09:30 - 11:30 (Thứ 2 - 4 - 6)</option>
-                            <option value="Ca Chiều: 15:00 - 17:00 (Thứ 2 - 4 - 6)">Ca Chiều: 15:00 - 17:00 (Thứ 2 - 4 - 6)</option>
+                            <option value="Khóa chính: 14h30 - 16h30 (Thứ Ba & Thứ Năm)">Khóa chính: 14h30 - 16h30 (Thứ Ba & Thứ Năm)</option>
+                            <option value="Học thử: 14h30 Thứ Ba 02/06">Học thử: 14h30 Thứ Ba 02/06</option>
                             <option value="Linh hoạt / Thỏa thuận riêng">Linh hoạt / Thỏa thuận riêng</option>
                         </select>
                     </div>
