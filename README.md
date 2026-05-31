@@ -335,7 +335,7 @@ Chấn Phong 14 tuổi dạy các em 8–12 tuổi — đây là **lợi thế c
 - **2026-05-26:** Cập nhật UX hậu-submit: khi Google Sheet/email đã thành công, phụ huynh chỉ cần tham gia nhóm Zalo; nội dung copy/textarea chỉ còn là dự phòng/đối chiếu.
 - **2026-05-31:**
   - Di chuyển phần "Ví Dụ Sản Phẩm Scratch Tương Đương" từ vị trí phía trên lộ trình học xuống dưới lộ trình học 6 tuần (ngay trước phần đăng ký học phí).
-  - Loại bỏ các khối bay nổi không responsive ở Hero Section để tối ưu hiển thị trên các thiết bị di động.
+  - Loại bỏ các khối bay nổi không responsive và khối hộp màu tím placeholder (hình ảnh minh họa trống) ở Hero Section, đồng thời căn giữa toàn bộ nội dung giới thiệu đầu trang để tạo bố cục đối xứng cân đối.
   - Loại bỏ hoàn toàn "Gói Theo Tuần" khỏi bảng học phí nhằm tối giản lựa chọn đăng ký cho phụ huynh.
   - Thêm chú thích bản dịch tiếng Việt bên cạnh tên tiếng Anh của 8 dự án Scratch (ví dụ: `Fruit Catcher (Hứng Trái Cây)`, `Cats TD 3 (Game Thủ Thành Mèo 3)`...) để giúp phụ huynh dễ hiểu hơn.
 
